@@ -1,8 +1,13 @@
-# Keeps the pinned action versions in .github/workflows current.
+# Keeps the SHA-pinned actions in .github/workflows current.
+# Dependabot opens a pull request when a pinned action has a new release;
+# the pull request still has to pass the build check before it can merge.
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 3
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
+    open-pull-requests-limit: 5
