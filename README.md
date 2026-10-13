@@ -42,14 +42,15 @@ AI systems make confident mistakes. Every statement in the document carries a la
 
 | Check | Result |
 | --- | --- |
-| Pinned GitHub file links that exist at their commit | 139 of 139, plus 3 commit links (`tools/check_links.py`) |
-| Internal links that resolve | 262 of 262 |
-| Line references inside their files | 110 of 110 (`tools/check_quotes.py`) |
-| Quotation fragments | 32: 15 matched by script to pinned source files, 14 matched by script to the unpublished Draft v5 file, 3 checked by hand (two against the MeshCore blog, one against a firmware format string) |
+| Pinned GitHub file links that exist at their commit | 142 of 142, plus 3 commit links (`tools/check_links.py`, run against fresh clones from GitHub) |
+| Internal links that resolve | 268 of 268 |
+| Line references inside their files | 113 of 113 (`tools/check_quotes.py`) |
+| Quotation fragments | 33: 16 matched by script to pinned source files, 14 matched by script to the unpublished Draft v5 file, 3 checked by hand (two against the MeshCore blog, one against a firmware format string) |
 | Scope decoding | Reproduced by a second, independent implementation (`tools/decode_scope.py`) |
 | New calculations in this edition | Recomputed by script |
+| Independent read | A separate AI agent that had not seen the document being written checked the firmware claims, every command block and a sample of citations against the pinned sources. It found eleven errors; all are corrected (see [CHANGELOG.md](CHANGELOG.md)) |
 
-What was **not** done: an independent second-reader pass by separate AI agents was started on the review and did not finish. Some web pages were read through a tool that summarizes them. Analyzer figures are a snapshot from 13 October 2026 and the analyzer keeps about seven days of data, so they will not reproduce later. Links to web pages and to the analyzer were read on 13 October 2026 and are not rechecked by the scripts.
+What was **not** checked: the independent read did not reach the claims sourced to the MeshCore blog, the live analyzer and MeshMapper figures, the SkyNet counters or the terrain table. Some web pages were read through a tool that summarizes them. Analyzer figures are a snapshot from 13 October 2026 and the analyzer keeps about seven days of data, so they will not reproduce later. Links to web pages and to the analyzer were read on 13 October 2026 and are not rechecked by the scripts. The positions of mountain ranges on the terrain map are approximate.
 
 ## Repository layout
 

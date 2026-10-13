@@ -17,6 +17,22 @@ Changed from Draft v5:
 - Every GitHub source is pinned to a commit.
 - Added: maps of the four name sets, forwarding and first-mover diagrams, a neighbor map for the pilot, search, a feedback form, an author's note, an account of how the document was made, and a list of 14 open research items.
 
+Corrections made the same day, after an independent read against the pinned sources:
+
+- Command block 0: on firmware older than 1.16, `get flood.max.unscoped` and `get flood.max.advert` answer with the plain `flood.max` value. The earlier caption said an error would reveal the firmware generation. Go by `ver`.
+- Names, option C: `san` is the beginning of generator area names such as `santaclarita`, so the option breaks the prefix rule until the San Diego metro has another name.
+- The three `psp` adverts were each relayed once. The relaying repeater either holds `psp` or runs firmware too old to filter.
+- An overlap repeater does retransmit each metro's floods one hop into the other metro.
+- The generator has declared no tags since 24 August, where the text said 3 August.
+- "About 22 hours" is the life of the SoCal region list. The regions section that held it lasted about 55 hours.
+- `socal` is one of two names the lists share (`us` is the other, between the generator and the wiki draft).
+- The Q2 report describes tunneling (injected traffic), which the text had called a replay attack. The conclusion is relabeled as inference.
+- Emergency and alert channels: the rollout and the channel table now agree (unscoped until the gate for people is passed, then `socal`).
+- The `us` scope rests on a single packet and is now marked probable. The different counts of scoped packets (64 of 65, 12 of 58, 13 decoded) are explained.
+- Small fixes: county channels are about 1.1 percent of relay airtime; the duplicate counter's source is cited; one line range and one caption corrected.
+
+Added: a terrain map of the mountain barriers and passes, drawn on real county outlines at approximate positions.
+
 Not yet reflected: anything said in the WCMesh Discord.
 
 ## Earlier drafts

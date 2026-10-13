@@ -46,7 +46,7 @@
 <p class="lead">SoCal's mesh is busy enough that its own maintainer says it is starting to hit the range where messages get lost. This document proposes an order of work that reduces that load, and it lists what is still unknown.</p>
 <div class="sum">
 <div><b class="k">about 2,850</b><span class="l">channel messages a day last week, roughly double the Q2 average of 1,332</span></div>
-<div><b class="k">68%</b><span class="l">of those messages are test, bot or wardriving traffic</span></div>
+<div><b class="k">68%</b><span class="l">of decodable channel messages are test, bot or wardriving traffic</span></div>
 <div><b class="k">4</b><span class="l">different sets of SoCal region names exist, and scoped traffic already uses two of them</span></div>
 <div><b class="k">0 of 30</b><span class="l">audited repeaters declare a named region today</span></div>
 </div>
@@ -122,7 +122,8 @@
 <ul>
 <li>[[F]] A script matched quotations against the text of their cited sources and confirmed that each line reference falls inside its file. Three quotations had no machine-readable copy and were checked by hand. A second script confirmed that every pinned GitHub link points at a file that exists at that commit. Both scripts and the counts for this edition are in the <a href="https://github.com/bubbadog/socal-meshcore-scoping" target="_blank" rel="noopener">repository</a>.</li>
 <li>[[F]] Calculations were recomputed by script, and the scope decoding was reproduced by a second, independent implementation, printed in the <a href="#app-b">appendix</a>.</li>
-<li>[[U]] An independent second-reader pass by separate AI agents was started on the review and did not finish. It has not been rerun.</li>
+<li>[[F]] A separate AI agent that had not seen the document being written then read this edition against the pinned sources. It checked the firmware claims, every command block and a sample of the citations, and found eleven errors. All are corrected here and listed in the repository's changelog.</li>
+<li>[[U]] That check did not reach the claims sourced to the MeshCore blog, the live analyzer and MeshMapper figures, the SkyNet counters or the terrain table. An earlier second-reader pass on the review did not finish.</li>
 <li>[[U]] Some web pages were read through a tool that summarizes them. Where a figure rests on such a reading, the reference says so.</li>
 <li>[[O]] AI systems make confident mistakes. Treat every line here as a claim to check, and use the sources to check it.</li>
 </ul>
@@ -143,7 +144,7 @@
 [[chart:airtime]]
 <figcaption>[[F]] Time on air multiplied by the number of distinct relays, by payload type, over 13,549 transmissions. [[@cs-airtime]]</figcaption>
 </figure>
-<p>[[E]] Channel messages are 44.5 percent of relay airtime and 68.4 percent of them are test, bot or wardriving traffic, so that traffic is about 30 percent of all relay airtime, if airtime per message is similar across channels. Confining it to a metro that holds 30 percent of the repeaters would save roughly a fifth of all relay airtime. [[E]] County and city channels are about 1.2 percent of relay airtime on the same assumption. That is the most that scoping those channels could save.</p>
+<p>[[E]] Channel messages are 44.5 percent of relay airtime and 68.4 percent of them are test, bot or wardriving traffic, so that traffic is about 30 percent of all relay airtime, if airtime per message is similar across channels. Confining it to a metro that holds 30 percent of the repeaters would save roughly a fifth of all relay airtime. [[E]] County and city channels are about 1.1 percent of relay airtime on the same assumption. That is the most that scoping those channels could save.</p>
 <details><summary>The full baseline table</summary>
 <!-- block:fix-baseline -->
 <div class="tw"><table>
@@ -190,7 +191,7 @@
 <figcaption>[[F]] The same three repeaters all forward a flood that carries no code, because each still allows <code>*</code>. [[@fw-rep:L556-568]] [[I]] Repeater B is why two vocabularies cannot mix: <code>ventura</code> and <code>oxr</code> may mean the same place to people, and they are unrelated names to the firmware.</figcaption>
 </figure>
 <h3>The trap for whoever goes first</h3>
-<p>[[F]] A repeater sends its own flood adverts under its default scope. [[@fw-rep:L1031-1038, L1294-1297]] [[I]] So the first repeater in a neighborhood to set a default scope has its adverts dropped by every neighbor that lacks the name. [[F]] This is visible on the SoCal air: one Coachella Valley repeater's scoped adverts each reached the analyzer over a single hop, while an unscoped advert from SkyNet was recorded 64 times over paths up to 11 hops. [[@cs-packets; own-decode; cs-advert]]</p>
+<p>[[F]] A repeater sends its own flood adverts under its default scope. [[@fw-rep:L1031-1038, L1294-1297]] [[I]] So the first repeater in a neighborhood to set a default scope has its adverts dropped by every neighbor that lacks the name. [[F]] The SoCal air shows the pattern: three scoped adverts from one Coachella Valley repeater were each recorded after a single relay and no further, while an unscoped advert from SkyNet was recorded 64 times over paths up to 11 hops. [[@cs-packets; own-decode; cs-advert]] [[I]] The one repeater that relayed them either holds <code>psp</code> too or runs firmware too old to filter. Either way the adverts stopped where the name stopped.</p>
 <figure class="fig">
 <h4>Setting a default scope before the neighbors are tagged</h4>
 <div class="sx"><svg viewBox="0 0 760 196" role="img" aria-label="Before: an unscoped advert passes from the repeater through two neighbors to an observer. After the repeater sets a default scope of oxr while its neighbors are untagged: the first neighbor hears the advert and drops it, so nothing reaches the observer.">
@@ -232,18 +233,18 @@
 <section id="names">
 <p class="num">06 &middot; Names</p>
 <h2>Four sets of names already exist. Pick one before tagging anything.</h2>
-<p>[[F]] The WCMesh docs carried a region guide for about 22 hours in March 2026. [[@wc-regions-old:L7-28; wc-log]] [[F]] The account that owns the WCMesh docs committed a second list, with counties and 52 local areas, to the matkam config generator on 3 and 24 August 2026. [[@mk-c1; mk-c2; mk-data:L112-118, L945]] [[F]] MeshMapper divides SoCal into five zones with airport codes. [[@mm-socal]] [[F]] Drafts v3 to v5 of this plan proposed a fourth list. [[@plan5:§05]]</p>
+<p>[[F]] The WCMesh docs carried a SoCal region list for about 22 hours in March 2026, inside a regions section that lasted about 55 hours. [[@wc-regions-old:L7-28; wc-log]] [[F]] The account that owns the WCMesh docs committed a second list, with counties and 52 local areas, to the matkam config generator on 3 and 24 August 2026. [[@mk-c1; mk-c2; mk-data:L112-118, L945]] [[F]] MeshMapper divides SoCal into five zones with airport codes. [[@mm-socal]] [[F]] Drafts v3 to v5 of this plan proposed a fourth list. [[@plan5:§05]]</p>
 <figure class="fig">
 <h4>Where each vocabulary puts its names</h4>
 [[fig:names]]
 <figcaption>[[F]] County outlines and the 52 local-area points are the generator's own data. [[@mk-outlines; mk-data:L945]] [[F]] LAX, SAN and SBA sit at the airport positions the analyzer publishes. [[@cs-iata]] [[I]] The other five airport codes are placed at the generator's reference point for the area that contains the airport, and the wiki draft's codes at the middle of each county, because neither source gives positions. Labels mark places. They are not boundaries; no boundary lines exist for any of these schemes.</figcaption>
 </figure>
-<p>[[F]] Scoped packets already on the air carry <code>psp</code>, <code>san</code>, <code>us</code> and <code>california</code>: two names from the airport family and two from the generator's chain. [[@own-decode]] [[I]] Because matching is per name, a repeater set up from one list and a radio set up from another can only meet on <code>socal</code>, the one name the lists share.</p>
+<p>[[F]] Scoped packets already on the air carry <code>psp</code>, <code>san</code> and <code>california</code>, each matched on three or more packets. [[U]] One more packet matches <code>us</code>; that rests on a single match and is probable, not certain. [[@own-decode]] [[I]] That is two names from the airport family and at least one from the generator's chain. [[I]] Because matching is per name, a repeater set up from one list and a radio set up from another can meet only on a name both lists contain. Drafts v3 to v5, the generator and the wiki draft all contain <code>socal</code>, and the generator and the wiki draft both contain <code>us</code>. No metro or county name appears in more than one of those three lists.</p>
 <!-- block:fix-names -->
 <div class="tw"><table>
 <thead><tr><th>Area</th><th>Drafts v3 to v5</th><th>Generator, since Aug 2026</th><th>MeshMapper zone</th><th>Wiki draft, 3 Mar 2026</th><th>Seen on air</th></tr></thead>
 <tbody>
-<tr><td>All of SoCal</td><td><code>socal</code></td><td><code>socal</code>, under <code>us</code>, <code>west</code>, <code>california</code></td><td>none</td><td><code>socal</code>, under <code>us</code>, <code>ca</code></td><td><code>us</code>, <code>california</code></td></tr>
+<tr><td>All of SoCal</td><td><code>socal</code></td><td><code>socal</code>, under <code>us</code>, <code>west</code>, <code>california</code></td><td>none</td><td><code>socal</code>, under <code>us</code>, <code>ca</code></td><td><code>california</code>; <code>us</code> probable</td></tr>
 <tr><td>Santa Barbara County</td><td><code>sba</code></td><td><code>santabarbara</code></td><td>SBA</td><td><code>sb</code></td><td></td></tr>
 <tr><td>Ventura County</td><td><code>oxr</code></td><td><code>ventura</code></td><td>OXR</td><td><code>vta</code></td><td></td></tr>
 <tr><td>Los Angeles County</td><td><code>lax</code>, <code>lgb</code></td><td><code>losangeles</code></td><td>LAX</td><td><code>la</code></td><td></td></tr>
@@ -254,13 +255,13 @@
 <tr><td>Imperial County</td><td>none</td><td><code>imperial</code></td><td>none listed</td><td>none</td><td></td></tr>
 <tr><td>Conejo Valley</td><td><code>oxr-conejo</code></td><td><code>conejovalley</code></td><td>none</td><td>none</td><td></td></tr>
 </tbody></table></div>
-<p class="small">[[F]] Sources by column: [[@plan5:§05, §06]]; [[@mk-data:L112-118, L945-1278]]; [[@mm-socal]]; [[@wc-regions-old:L7-28]]; [[@own-decode]].</p>
-<p>[[O]] Three ways to converge, each with a cost. <strong>A.</strong> Adopt the generator's tree as it stands. The maintainer wrote it and a tool already emits it. A Conejo repeater then carries six names, three of which (<code>us</code>, <code>west</code>, <code>california</code>) do nothing inside an isolated SoCal, and today's <code>psp</code> and <code>san</code> users re-tag. <strong>B.</strong> Adopt the airport metros of drafts v3 to v5 and have the generator and wiki changed. This asks the maintainer to reverse the August work. <strong>C.</strong> A short flat set: <code>socal</code>, one metro name per MeshMapper zone, and the generator's area names for local tags. This reuses each existing vocabulary at the layer where a tool already emits it, avoids names that are prefixes of other names, and keeps a repeater to three entries. This draft leans to C, with low confidence. Whichever is chosen, the choice belongs to the people who maintain the three tools.</p>
+<p class="small">[[F]] Sources by column: [[@plan5:§05, §06]]; [[@mk-data:L112-118, L945-1326]]; [[@mm-socal]]; [[@wc-regions-old:L7-28]]; [[@own-decode]].</p>
+<p>[[O]] Three ways to converge, each with a cost. <strong>A.</strong> Adopt the generator's tree as it stands. The maintainer wrote it and a tool already emits it. A Conejo repeater then carries six names, three of which (<code>us</code>, <code>west</code>, <code>california</code>) do nothing inside an isolated SoCal, and today's <code>psp</code> and <code>san</code> users re-tag. <strong>B.</strong> Adopt the airport metros of drafts v3 to v5 and have the generator and wiki changed. This asks the maintainer to reverse the August work. <strong>C.</strong> A short flat set: <code>socal</code>, one metro name per MeshMapper zone, and the generator's area names for local tags. This reuses each existing vocabulary at the layer where a tool already emits it and keeps a repeater to three entries. It has one flaw to solve first: <code>san</code> is the beginning of generator area names such as <code>santaclarita</code> and <code>sanjacintovalley</code>, which breaks the prefix rule below, so the San Diego metro would need another name. [[@mk-data:L945-1326]] This draft leans to C, with low confidence. Whichever is chosen, the choice belongs to the people who maintain the three tools.</p>
 <!-- /block -->
 <h3>Naming rules, whichever set is chosen</h3>
 <ul>
 <li>[[F]] Lower case, at most 29 bytes, letters, digits and hyphen. [[@blog-region]]</li>
-<li>[[R]] No name may be the beginning of another name. [[F]] The CLI's <code>allowf</code>, <code>denyf</code>, <code>get</code> and <code>default</code> match by prefix when no exact name exists. [[@fw-regionmap:L218-231]] This rules out pairs such as <code>oxr</code> with <code>oxr-conejo</code>, which earlier drafts used.</li>
+<li>[[R]] No name may be the beginning of another name. [[F]] The CLI's <code>allowf</code>, <code>denyf</code>, <code>get</code> and <code>default</code> match by prefix when no exact name exists. [[@fw-regionmap:L218-231]] This rules out pairs such as <code>oxr</code> with <code>oxr-conejo</code>, which earlier drafts used, and <code>san</code> with <code>santaclarita</code>.</li>
 <li>[[R]] A published name is never renamed. [[F]] "any misspellings will be treated as a completely different region". [[@blog-region]]</li>
 <li>[[R]] Names stay flat. [[F]] Nesting does not change forwarding. [[@pnw-rollout:L105]]</li>
 </ul>
@@ -268,7 +269,7 @@
 <ul>
 <li>[[R]] <strong>Metro repeater.</strong> Holds its metro name and <code>socal</code>. Most repeaters, including peaks that serve one metro.</li>
 <li>[[R]] <strong>Wide-only site.</strong> Holds <code>socal</code> only. For a site whose measured job is to link metros.</li>
-<li>[[R]] <strong>Overlap repeater.</strong> Holds two metro names and <code>socal</code>. [[I]] It gives people in the seam coverage under either metro's scope. It does not carry one metro's traffic into the other, because a packet has one code and the next repeater along holds only its own metro's name. [[@fw-rep:L997-1005; blog-region]]</li>
+<li>[[R]] <strong>Overlap repeater.</strong> Holds two metro names and <code>socal</code>. [[I]] It gives people in the seam coverage under either metro's scope. It retransmits each metro's floods, so they are heard one hop into the other metro, and they stop there because a packet has one code and the next repeater along holds only its own metro's name. A chain of overlap repeaters would carry them further, so keep such sites few. [[@fw-rep:L997-1005; blog-region]]</li>
 <li>[[R]] <strong>Local tag.</strong> A name for a community that sits across a metro line, held by the repeaters that serve it. [[F]] The PNW plan uses the same device. [[@pnw-rollout:L113]]</li>
 </ul>
 <h3>Why the analyzer's region tags are weak evidence for any list</h3>
@@ -288,7 +289,7 @@
 <li>[[I]] <strong>Frequency already gives SoCal its outer boundary.</strong> This plan proposes no bridges and no shared root with any other mesh.</li>
 <li>[[I]] <strong>The proposal is about floods inside SoCal.</strong> A wide <code>socal</code> scope changes nothing about who relays a message inside an isolated mesh, and it adds 4 bytes to each flood. [[@fw-packet:L52-58]] The saving comes only from scopes smaller than the whole mesh, applied to the traffic that is large.</li>
 <li>[[F]] <strong>Scoping changes who relays a message. It hides nothing.</strong> Companions do not filter on receive. [[@wc-q2:L80; blog-region]]</li>
-<li>[[F]] <strong>Scoping is no defense against the replay attack the report describes.</strong> A region key is derived from the public name and the code from the packet's own bytes, so a replayed scoped packet stays valid. Private regions have no working key storage. [[@wc-q2:L84; fw-tks:L4-18, L44-47, L52-76]]</li>
+<li>[[I]] <strong>Scoping would not stop the tunneling the report describes.</strong> [[F]] The report describes someone "taking Bay Area traffic and injecting it into PNW". [[@wc-q2:L84]] [[F]] A region's key is derived from its public name and a packet's code from the packet's own bytes, and private regions have no working key storage. [[@fw-tks:L4-18, L44-47, L52-76]] [[I]] So anyone who knows a region's name can stamp a valid code on injected traffic. Strict forwarding would drop injected traffic that carries no code, and nothing more.</li>
 </ol>
 <p>[[F]] The report presents itself as one view: it is "not a definitive stance of the mesh". [[@wc-q2:L12]] [[F]] Its suggestion to limit bots to acknowledgements is worded as a proposal, ending "Can discuss further." [[@wc-q2:L39]]</p>
 </section>
@@ -302,7 +303,7 @@
 <li><span class="dotn">2</span><div><strong>Decide and measure.</strong> [[R]] One set of names agreed with the three tool maintainers. A firmware census. Baseline counters from at least five repeaters in different metros. The agreed names loaded into the analyzer so scoped traffic becomes visible. [[@cs-src-cfg:L400-404]]<span class="gate"><b>Gate</b>All four exist in writing.</span></div></li>
 <li><span class="dotn">3</span><div><strong>Tags only.</strong> [[R]] Repeater owners add the metro name and <code>socal</code> with flooding allowed. No default scope. The wildcard stays allowed.<span class="gate"><b>Gate, per metro</b>[[O]] A message scoped to the metro, sent from one edge, is heard at every observer in that metro on three separate days.</span></div></li>
 <li><span class="dotn">4</span><div><strong>Default scope on repeaters.</strong> [[R]] <code>region default &lt;metro&gt;</code>, only in metros that passed the gate.<span class="gate"><b>Test</b>Each repeater's next flood advert still reaches an observer.</span></div></li>
-<li><span class="dotn">5</span><div><strong>Machines, then people.</strong> [[R]] The MeshMapper administrator sets the Wardriving Scope for that zone, and bot owners set the bot radio's default scope to the metro. [[@mm-admin; blog-default]] Later, people may scope local channels, and companion default scope moves to <code>socal</code>. Emergency and alert channels stay unscoped.<span class="gate"><b>Gates</b>[[O]] For machines: MeshMapper coverage unchanged week over week and relays per flood down. For people: a <code>socal</code>-scoped message reaches every observer site and at least 95 percent of repeaters hold <code>socal</code>.</span></div></li>
+<li><span class="dotn">5</span><div><strong>Machines, then people.</strong> [[R]] The MeshMapper administrator sets the Wardriving Scope for that zone, and bot owners set the bot radio's default scope to the metro. [[@mm-admin; blog-default]] Later, people may scope local channels, and companion default scope moves to <code>socal</code>. Emergency and alert channels stay unscoped until the gate for people is passed, then move to <code>socal</code> so that step 6 cannot cut them off.<span class="gate"><b>Gates</b>[[O]] For machines: MeshMapper coverage unchanged week over week and relays per flood down. For people: a <code>socal</code>-scoped message reaches every observer site and at least 95 percent of repeaters hold <code>socal</code>.</span></div></li>
 <li><span class="dotn">6</span><div><strong>Containment, optional.</strong> [[R]] On 1.16 and newer, step <code>flood.max.unscoped</code> down from 12, holding each value for 30 days. Consider <code>region denyf *</code> only by agreement across the whole mesh. [[F]] The Dutch guide warns that it "only works reliably from v1.15 onwards". [[@nl-guide:L56]]<span class="gate"><b>Gate</b>[[O]] Unscoped share of flood-routed channel messages under 5 percent for 30 days.</span></div></li>
 </ol>
 </section>
@@ -313,7 +314,7 @@
 <p>[[R]] Region names below are placeholders until one set is agreed. <code>oxr</code> stands for a metro name.</p>
 <h3>WCMesh repeater settings, unchanged</h3>
 <p>[[F]] These are the settings WCMesh publishes. This plan changes none of them. [[@wc-radio:L18-28]]</p>
-<div class="cb"><div class="cap"><span>WCMesh recommended repeater settings (firmware 1.14 or newer)</span><button type="button" data-copy>Copy</button></div><pre>set path.hash.mode 1
+<div class="cb"><div class="cap"><span>WCMesh recommended repeater settings, as published</span><button type="button" data-copy>Copy</button></div><pre>set path.hash.mode 1
 set txdelay 1.6
 set direct.txdelay 0.8
 set loop.detect moderate
@@ -324,7 +325,7 @@ set owner.info &lt;how to reach you&gt;</pre></div>
 <!-- block:fix-cookbook -->
 <p>[[F]] Five rules first. (1) Names are lower case, at most 29 bytes, letters, digits and hyphen. [[@blog-region]] (2) No name may be the beginning of another name, because the CLI matches by prefix. [[@fw-regionmap:L218-231]] (3) Before any <code>allowf</code>, <code>denyf</code> or <code>default</code>, run <code>region get &lt;name&gt;</code> and check that the reply echoes exactly the name you meant. [[@fw-cli:L1086-1097]] (4) <code>region default</code> saves everything at once and invents a region from a typo. [[@fw-cli:L1109-1128]] (5) [[R]] Work over USB or from direct radio range, and confirm you can still log in before you leave.</p>
 
-<div class="cb"><div class="cap"><span>0. Inventory, any version. A command your firmware lacks answers with an error, which tells you its generation.</span><button type="button" data-copy>Copy</button></div><pre>ver
+<div class="cb"><div class="cap"><span>0. Inventory, any version. Read the firmware generation from the first line.</span><button type="button" data-copy>Copy</button></div><pre>ver
 region
 region default
 get flood.max
@@ -332,6 +333,7 @@ get flood.max.advert
 get flood.max.unscoped
 get loop.detect
 get advert.interval</pre></div>
+<p class="small">[[F]] On firmware older than 1.16 the two longer <code>get flood.max.*</code> lines are answered with the plain <code>flood.max</code> value, 64 by default, because the older code matches only the first nine letters. They mean something only on 1.16 and newer, so go by <code>ver</code>. [[@fw-v115:L782-783]]</p>
 
 <div class="cb"><div class="cap"><span>1. Tags only, firmware 1.16 or newer. Metro repeater, Ventura side.</span><button type="button" data-copy>Copy</button></div><pre>region def oxr|* socal
 region save
@@ -407,7 +409,7 @@ region save</pre></div>
 <p><strong>Pilot A, mechanics, Conejo Valley.</strong></p>
 <ol>
 <li><strong>Partners.</strong> At least three contiguous repeaters: SkyNet, one neighbor toward Los Angeles, and NP-CAM Grade, which carried SkyNet's advert to the Camarillo observer in one hop. [[@cs-advert]] Ask the analyzer's maintainer to load the test names first.</li>
-<li><strong>Instrument.</strong> On-node counters on each pilot repeater, read before and after: flood packets received and sent, duplicates, receive errors, transmit and receive airtime. [[@fw-stats:L28-50; own-telemetry]] The analyzer is the secondary check.</li>
+<li><strong>Instrument.</strong> On-node counters on each pilot repeater, read before and after: flood packets received and sent, duplicates, receive errors, transmit and receive airtime. [[@fw-stats:L28-50; fw-rep:L232-233; own-telemetry]] The analyzer is the secondary check.</li>
 <li><strong>Configure.</strong> Tags only, using the block for each node's firmware. No default scope yet.</li>
 <li><strong>Test 1, positive control.</strong> Send a message scoped to the pilot tag from one end of the cell. <em>Pass:</em> a companion at the other end, two hops away, receives it.</li>
 <li><strong>Test 2, negative control.</strong> The same message must not be received by a companion one hop outside the cell, and the analyzer must show no path that leaves the pilot nodes. <em>If it leaks:</em> suspect a pre-1.10 repeater and record which one. [[@blog-region]]</li>
@@ -447,6 +449,12 @@ region save</pre></div>
 <p>[[F]] <code>flood.max</code> defaults to 64 hops, and Canada's proposal sets 16. [[@fw-rep:L905; ca-onqc:L519, L885-887]] [[R]] Trial a value between 20 and 24 on a few high sites, measure delivery between fixed pairs, and only then consider going lower. [[I]] A hop limit needs no names and no coordination.</p>
 <h3>Terrain, as background only</h3>
 <p>[[R]] Terrain suggests where to measure. It does not define cells. The 24 candidate sub-regions and the schematic map in earlier drafts are withdrawn until operators mark real boundary sites.</p>
+<figure class="fig">
+<h4>The mountain barriers and the passes through them</h4>
+<div class="sx wide">[[fig:terrain]]</div><p class="swipe">Swipe sideways to see the whole map.</p>
+<div class="key"><span><i class="kl"></i>mountain barrier</span><span>&#9671; pass or gap:</span> [[fig:terrain-key]]</div>
+<figcaption>[[E]] Each barrier is drawn as a straight stroke at an approximate position, for orientation only. Nothing here is a measured radio boundary. [[F]] County outlines are the generator's data. [[@mk-outlines]] The table below says what each barrier separates and gives its source.</figcaption>
+</figure>
 <!-- block:fix-terrain -->
 <div class="tw"><table>
 <thead><tr><th>Feature</th><th>What it separates</th><th>Gaps and passes</th><th>Source</th></tr></thead>
@@ -519,11 +527,11 @@ region save</pre></div>
 <div class="tw"><table>
 <thead><tr><th>Draft v5 said</th><th>What the sources show</th><th>This edition</th></tr></thead>
 <tbody>
-<tr><td>[[P]] "99.5% of observed transport routes were unscoped" [[@plan5:§01]]</td><td>[[F]] The analyzer's unscoped total includes every ordinary flood and every direct packet. In one 24-hour window, 64 of the 65 transport-route packets were scoped. [[@cs-src-db:L3270-3299; cs-scope]]</td><td>The figure is dropped. Scoped share is measured per channel instead.</td></tr>
+<tr><td>[[P]] "99.5% of observed transport routes were unscoped" [[@plan5:§01]]</td><td>[[F]] The analyzer's unscoped total includes every ordinary flood and every direct packet. In one 24-hour window the analyzer counted 64 of the 65 transport-route packets as scoped. [[@cs-src-db:L3270-3299; cs-scope]] [[F]] Many of those are damaged frames that happened to parse: of the latest 58 transport-route packets, 12 were well formed. [[@cs-packets]]</td><td>The figure is dropped. Scoped share is measured per channel instead.</td></tr>
 <tr><td>[[P]] The rollout can proceed "while load is still modest" [[@plan5:§01]]</td><td>[[F]] The cited report says the mesh is "starting to hit" its overwhelm range. [[@wc-q2:L39]]</td><td>Load is the stated reason for the plan.</td></tr>
 <tr><td>[[P]] Four communities "document the same sequence", labeled as fact [[@plan5:§04]]</td><td>[[F]] Scotland denied unscoped floods first; Canada's edge repeaters deny them in its first phase; the Netherlands requires it last; the PNW has no dates. [[@scot-regions:L66-74; ca-onqc:L342; nl-guide:L157-164; pnw-rollout:L5-10]]</td><td>Each community's actual sequence is stated; no precedent is claimed.</td></tr>
 <tr><td>[[P]] "zero-hop 4h, set loop.detect minimal" [[@plan5:§04]]</td><td>[[F]] WCMesh publishes <code>set advert.interval 0</code> and <code>set loop.detect moderate</code>. [[@wc-radio:L25-27]]</td><td>The WCMesh settings, unchanged.</td></tr>
-<tr><td>[[P]] <code>socal</code> "aligns with the alternative matkam California scheme's existing tag concept"; "No public matkam statement about SoCal naming was found" [[@plan5:§05]]</td><td>[[F]] Since 3 August the generator declares no tags and holds a full SoCal list, committed by the account that owns the WCMesh docs. [[@mk-data:L127-130, L945; mk-c1; mk-c2]]</td><td>All four lists shown side by side; convergence comes first.</td></tr>
+<tr><td>[[P]] <code>socal</code> "aligns with the alternative matkam California scheme's existing tag concept"; "No public matkam statement about SoCal naming was found" [[@plan5:§05]]</td><td>[[F]] The generator has held a full SoCal list since 3 August and has declared no tags since 24 August, both committed by the account that owns the WCMesh docs. [[@mk-data:L127-130, L945; mk-c1; mk-c2]]</td><td>All four lists shown side by side; convergence comes first.</td></tr>
 <tr><td>[[P]] Scoped traffic is "orphaned from repeater configuration"; companions or room servers are "the likeliest source" [[@plan5:§01, RT-25]]</td><td>[[F]] The analyzer's seven-day table shows 5 repeater adverts carrying a scope, and a repeater's adverts carry one only when a default scope is configured on it. [[@cs-scope; fw-rep:L1031-1038]] [[C]] The audit that found no declared regions covers 30 of 806 repeaters.</td><td>At least one repeater is configured. The audit is described as a small sample.</td></tr>
 <tr><td>[[P]] "On Public, the message limit changes from 137 to 127 characters", cited to the MeshCore FAQ [[@plan5:§02]]</td><td>[[F]] The FAQ never mentions scopes. The figure is one Canadian test and "can vary with your node name and app version". [[@fw-docs-faq; ca-onqc:L729-732]]</td><td>Listed as an open bench test (R11).</td></tr>
 <tr><td>[[P]] Case behavior needs a bench test "because the official CLI documentation does not specify it" [[@plan5:§03]]</td><td>[[F]] The firmware author's rule is "Only <em>lower case</em> alpha-numeric chars, and - (hyphen)", and the firmware compares names exactly. [[@blog-region; fw-regionmap:L207-216]]</td><td>Stated as a rule. Only the app's handling is open.</td></tr>
@@ -536,7 +544,7 @@ region save</pre></div>
 <tr><td>[[P]] "Candidate backbone proxies" from MeshMapper's maximum-range list [[@plan5:§07]]</td><td>[[I]] Long range does not show that a site links metros. [[U]] Claude did not load that list.</td><td>Left out. Backbone sites are an open item (R7).</td></tr>
 <tr><td>[[P]] References link to <code>blob/HEAD</code> or <code>blob/main</code> [[@plan5:§10]]</td><td>[[I]] Those addresses change as the files change, so a line citation can go stale.</td><td>Every GitHub source pinned to a commit.</td></tr>
 </tbody></table></div>
-<p>[[F]] What Draft v5 got right, and this edition keeps: the mechanism of per-name matching; the aim of a rollout that is additive and reversible; the record of the March guide's 22-hour life; the statement that acknowledgement-only bots are one person's proposal; and the plain account of the failed Discord attempts. [[@plan5:§01, §02, §04, §08; wc-log; wc-q2:L39]]</p>
+<p>[[F]] What Draft v5 got right, and this edition keeps: the mechanism of per-name matching; the aim of a rollout that is additive and reversible; the record of the March list's 22-hour life; the statement that acknowledgement-only bots are one person's proposal; and the plain account of the failed Discord attempts. [[@plan5:§01, §02, §04, §08; wc-log; wc-q2:L39]]</p>
 </section>
 
 <section id="feedback">
@@ -571,7 +579,7 @@ region save</pre></div>
 <section id="app-b">
 <p class="num">Appendix</p>
 <h2>Reading the scopes already on air</h2>
-<p>[[F]] The firmware derives a region's key as the first 16 bytes of SHA-256 over <code>#</code> plus the name, and a packet's code as the first two bytes of HMAC-SHA256 under that key over one byte of payload type followed by the payload, with the values 0x0000 and 0xFFFF moved to their neighbors. [[@fw-regionmap:L175-183; fw-tks:L4-18, L44-47]] [[F]] The analyzer serves the raw bytes of scoped packets and marks them as scoped with no resolved name. [[@cs-packets; cs-src-db:L3270-3278]] [[F]] Of 13 such packets from 11 to 13 October, 12 match a name: three flood adverts from one Coachella Valley repeater match <code>psp</code>; three Public messages from one user match <code>san</code>; four posts from a bot match <code>california</code>; two messages from another user match <code>us</code> and <code>california</code>. [[@own-decode]] [[C]] A single match has about a 7 percent chance of being accidental against the 4,461 names tried; the same name matching three packets from one sender does not happen by accident.</p>
+<p>[[F]] The firmware derives a region's key as the first 16 bytes of SHA-256 over <code>#</code> plus the name, and a packet's code as the first two bytes of HMAC-SHA256 under that key over one byte of payload type followed by the payload, with the values 0x0000 and 0xFFFF moved to their neighbors. [[@fw-regionmap:L175-183; fw-tks:L4-18, L44-47]] [[F]] The analyzer serves the raw bytes of scoped packets and marks them as scoped with no resolved name. [[@cs-packets; cs-src-db:L3270-3278]] [[F]] Of 13 such packets from 11 to 13 October, 12 match a name: three flood adverts from one Coachella Valley repeater match <code>psp</code>; three Public messages from one user match <code>san</code>; four posts from a bot match <code>california</code>; two messages from another user match <code>us</code> and <code>california</code>. [[@own-decode]] [[F]] Twelve of the 13 came from the analyzer's latest 58 transport-route packets and one was fetched separately. [[@cs-packets]] [[C]] A single packet has about a 7 percent chance of matching some name among the 4,461 tried by accident; the same name matching three packets from one sender does not happen by accident. The lone <code>us</code> match is therefore probable, not certain.</p>
 <div class="cb"><div class="cap"><span>Python 3, standard library only. Returns the code a packet would carry under a given name.</span><button type="button" data-copy>Copy</button></div><pre>import hashlib, hmac
 
 def code(name, raw_hex):
@@ -582,7 +590,10 @@ def code(name, raw_hex):
     payload = b[6 + path:]
     key = hashlib.sha256(('#' + name).encode()).digest()[:16]
     mac = hmac.new(key, bytes([ptype]) + payload, hashlib.sha256).digest()
-    return mac[:2].hex().upper()             # compare with raw_hex[2:6]</pre></div>
+    return mac[:2].hex().upper()             # compare with raw_hex[2:6]
+
+# The firmware also moves the reserved codes 0000 and FFFF to a neighbor.
+# tools/decode_scope.py in the repository handles that case.</pre></div>
 [[packets]]
 <p class="small">Only the repeater's adverts are reproduced here. Packets carrying individual users' messages are left out of the public copy.</p>
 </section>

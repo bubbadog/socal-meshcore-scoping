@@ -217,3 +217,39 @@ def fig_conejo():
             f'<text class="mlb tiny" x="{bx}" y="{by - 7}">5 km</text>')
     return (f'<svg viewBox="0 0 {W:.0f} {H:.0f}" role="img" aria-label="SkyNet and its seven analyzer-resolved neighbors. '
             f'Line weight shows observation count. Highest in the Neighbor sits beside the Simi Valley reference point.">{out}</svg>')
+
+
+# Ranges as straight strokes at approximate positions (lat, lon), for orientation only.
+# label: text x, y, anchor, then an optional leader line (x1, y1, x2, y2) in map units
+RANGES = [
+    ("Santa Ynez Mtns", [(34.50, -120.25), (34.50, -119.75), (34.47, -119.45)], (389, 789, "middle", None)),
+    ("Santa Susana Mtns", [(34.37, -118.85), (34.34, -118.55)], (425, 728, "middle", (479, 811, 432, 734))),
+    ("San Gabriel Mtns", [(34.40, -118.45), (34.33, -118.05), (34.27, -117.60)], (522, 792, "middle", None)),
+    ("Simi Hills", [(34.235, -118.78), (34.21, -118.65)], (462, 900, "middle", (484, 829, 466, 889))),
+    ("Santa Monica Mtns", [(34.09, -119.05), (34.10, -118.75), (34.13, -118.40)], (452, 876, "end", (462, 843, 440, 865))),
+    ("San Bernardino Mtns", [(34.27, -117.40), (34.20, -117.00), (34.10, -116.72)], (666, 828, "start", None)),
+    ("San Jacinto Mtns", [(33.87, -116.75), (33.62, -116.58)], (672, 884, "start", None)),
+    ("Santa Ana Mtns", [(33.95, -117.75), (33.78, -117.60), (33.55, -117.42)], (560, 944, "end", (588, 893, 550, 932))),
+    ("Cuyamaca and Laguna Mtns", [(33.10, -116.62), (32.80, -116.45)], (684, 966, "start", None)),
+]
+PASSES = [("A", "Conejo Grade", 34.205, -118.99, -9, -5), ("B", "Santa Susana Pass", 34.27, -118.63, -3, -7), ("C", "Newhall Pass", 34.335, -118.51, 6, -6),
+          ("D", "Sepulveda Pass", 34.115, -118.475, -4, 14), ("E", "Cahuenga Pass", 34.125, -118.345, 7, 12), ("F", "Santa Ana Canyon", 33.87, -117.72, -12, 4),
+          ("G", "Cajon Pass", 34.31, -117.47, 1, -8), ("H", "San Gorgonio Pass", 33.925, -116.85, -4, -8)]
+
+
+def fig_terrain():
+    extra = ""
+    for name, pts, (lx, ly, anc, lead) in RANGES:
+        xy = [proj(a, b) for a, b in pts]
+        extra += '<polyline class="rng" points="' + " ".join(f"{x:.1f},{y:.1f}" for x, y in xy) + '"/>'
+    for name, pts, (lx, ly, anc, lead) in RANGES:
+        if lead:
+            extra += f'<line class="lead" x1="{lead[0]}" y1="{lead[1]}" x2="{lead[2]}" y2="{lead[3]}"/>'
+        extra += f'<text class="mlb rg" x="{lx}" y="{ly}" text-anchor="{anc}">{name}</text>'
+    for letter, name, lat, lon, dx, dy in PASSES:
+        x, y = proj(lat, lon)
+        extra += (f'<path class="pass" d="M{x:.1f} {y - 4.5:.1f} L{x + 4.5:.1f} {y:.1f} L{x:.1f} {y + 4.5:.1f} L{x - 4.5:.1f} {y:.1f}Z"><title>{name}</title></path>'
+                  f'<text class="mlb ps" x="{x + dx:.1f}" y="{y + dy:.1f}" text-anchor="middle">{letter}</text>')
+    svg = base(extra, "Southern California counties with nine mountain barriers drawn as strokes and eight passes marked by letters")
+    key = " ".join(f"<span><b>{letter}</b> {name}</span>" for letter, name, *_ in PASSES)
+    return svg, key

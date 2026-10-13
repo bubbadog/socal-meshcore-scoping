@@ -243,6 +243,8 @@ def main():
         obs_svg, n_obs, n_lax = figs.fig_observers()
         doc = doc.replace("[[fig:names]]", figs.fig_names()).replace("[[fig:observers]]", obs_svg).replace("[[fig:conejo]]", figs.fig_conejo())
         doc = doc.replace("[[obs:located]]", str(n_obs)).replace("[[obs:lax]]", str(n_lax))
+        ter_svg, ter_key = figs.fig_terrain()
+        doc = doc.replace("[[fig:terrain]]", ter_svg).replace("[[fig:terrain-key]]", ter_key)
 
     unused = [k for k in num if k not in used]
     for k in unused:
