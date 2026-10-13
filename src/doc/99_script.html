@@ -98,7 +98,7 @@
   function body(limit){
     var t=ft.value.trim();
     if(limit&&t.length>limit)t=t.slice(0,limit)+'\n\n(Cut short by the form. Please paste the rest.)';
-    return 'Section: '+fs.value+'\nKind: '+fk.value+'\nFrom: '+(fw.value.trim()||'not given')+'\nDocument: Draft v6, 13 October 2026\n\n'+t+'\n';
+    return 'Section: '+fs.value+'\nKind: '+fk.value+'\nFrom: '+(fw.value.trim()||'not given')+'\nDocument: Public draft 1, revised 13 October 2026 (evening)\n\n'+t+'\n';
   }
   function title(){
     var t=ft.value.trim().replace(/\s+/g,' ');

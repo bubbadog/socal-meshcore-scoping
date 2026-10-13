@@ -99,9 +99,9 @@ def panel_wiki():
 
 def fig_names():
     panels = [
-        ("Drafts v3 to v5 of this plan", "Eight airport-code metros, plus <code>&lt;metro&gt;-&lt;place&gt;</code> sub-regions",
-         panel_airports(["sba", "oxr", "lax", "lgb", "sna", "ont", "psp", "san"], "Eight airport-code metros proposed in drafts v3 to v5")),
         ("matkam generator, since Aug 2026", "Eight county names and 52 local areas under <code>us</code>, <code>west</code>, <code>california</code>, <code>socal</code>", panel_generator()),
+        ("Working drafts 3 to 5 (withdrawn)", "Eight airport-code metros, plus <code>&lt;metro&gt;-&lt;place&gt;</code> sub-regions. Withdrawn in favor of the generator names.",
+         panel_airports(["sba", "oxr", "lax", "lgb", "sna", "ont", "psp", "san"], "Eight airport-code metros proposed in working drafts 3 to 5, withdrawn")),
         ("MeshMapper zones", "Five zones. Zone boundaries are not published, so only the codes are placed.",
          panel_airports(["sba", "oxr", "lax", "psp", "san"], "Five MeshMapper zones", upper=True)),
         ("WCMesh wiki draft, 3 to 4 Mar 2026", "Six short codes under <code>us</code>, <code>ca</code>, <code>socal</code>. Withdrawn after about 22 hours.", panel_wiki()),

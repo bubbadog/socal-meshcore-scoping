@@ -27,7 +27,7 @@ Two checks run on every pull request. `build` rebuilds both pages and fails if t
 
 ## Bringing evidence from Discord
 
-Neither AI system that worked on this could read the WCMesh Discord, so this is the most valuable thing a member can add. Please give the channel, the date, the exact text and the message link. An AI summary of a discussion is treated as a lead until the original words are supplied.
+The Discord was read once, by search, on 13 October 2026, and the plan cites 44 messages by link (group M of the works cited). It was not read in full, and Claude worked from a memo of it rather than from the messages, so corrections from members who were in those threads are the most valuable thing anyone can add. Please give the channel, the date, the exact text and the message link. An AI summary of a discussion is treated as a lead until the original words are supplied. Cite other members by role, not handle, and paraphrase private members unless they agree to be quoted; a maintainer's statement made as administrator may be quoted.
 
 ## Checking the work
 

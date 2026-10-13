@@ -35,7 +35,7 @@ Definitions live in [.github/rulesets](.github/rulesets) and must always match w
 ## Publishing a new draft
 
 1. Update the draft number and date in `src/doc/10_doc.html`, rebuild, merge.
-2. Tag the merge commit, for example `git tag v7 && git push origin v7`. Tags that start with `v` cannot be moved or deleted once the tag ruleset is active, so a cited draft stays what it was.
+2. Tag the merge commit with the public number, for example `git tag v1.0 && git push origin v1.0` for public draft 1 (internal numbering stays in CHANGELOG.md). Tags that start with `v` cannot be moved or deleted once the tag ruleset is active, so a cited draft stays what it was.
 
 ## Dependencies
 
