@@ -33,7 +33,22 @@ Corrections made the same day, after an independent read against the pinned sour
 
 Added: a terrain map of the mountain barriers and passes, drawn on real county outlines at approximate positions.
 
-Not yet reflected: anything said in the WCMesh Discord.
+Revised the same evening, after a read-only search of the WCMesh Discord (1,501 messages matched, 52 cited by message link; Discord sources are group M of the works cited):
+
+- Names: the airport-code metros of working drafts 3 to 5 are withdrawn. The plan follows the direction the SoCal administrator and the config generator's maintainer have already set: `us`, `west`, `california`, `socal`, then county names, with local areas as optional tags. The administrator argued against three-letter codes, and his August survey (about 30 responses) found city level too granular. No names are proposed; two points from the withdrawn options are put as questions.
+- Names: a prefix check of the generator's SoCal list found `west` before `westside` and `westernriverside`, and `imperial` before `imperialvalley` and `imperialborder`. Harmless on a repeater that holds the full chain; raised as a question for the generator's maintainer, not a change.
+- Names: a fifth vocabulary is forming on the air (`psp` from the Coachella Valley administrator, an `le` scope, `rsc` proposed on 12 October), which is the plan's argument for publishing the county list soon.
+- Commands: every block uses the generator's own lines. The 1.16 form is `region def us west california socal ventura`; on 1.15 and 1.12 to 1.14 the same tree is built with `region put name parent`. The first pass of this revision wrote `region def us|* west|* ...`, which would have placed every name under the root as a flat set; corrected against the firmware source and recorded in the red-team table. Roles: wide-only `region def us west california socal`; overlap `... socal ventura|socal santabarbara`; local tag `region put conejovalley ventura`.
+- Rollout: step 1 names the bot asks already on record (the administrator's June request, meshcore-bot's rate limits, Sacramento's draft bot policy). Step 4 sets `region default socal` first, per the administrator's July guidance (default set, home unset, default at a higher level); county defaults only with his agreement. Step 6 notes that strict forwarding is already in use at the Bear Mountain bridge.
+- Answer to the Q2 report: "frequency is the boundary" is now "most of the boundary". A SoCal to Central Valley bridge has run on Bear Mountain near Tehachapi since at least March and has blocked unscoped traffic since 10 August. The plan proposes no new bridges.
+- Why now: members' own load figures added (a March week's Public and bot counts, an under-10-percent duty-cycle report, Seattle's thresholds, a February advert-airtime measurement).
+- How scoping works: the first-mover and firmware claims are set beside community statements ("region default is a loaded gun"; "anything before 1.12 drops scoped packets"; pre-1.10 repeaters forward scoped packets unchecked).
+- Research still needed: a Status column. R1, R3 and R6 closed (R3 by inference: the SoCal administrator also administers the MeshMapper SoCal zones); R4, R5 and R11 partly closed; R15 (Cascadia and Bay Area boundaries) and R16 (whether the operators already using `psp`, `le` and `rsc` move to the county names) added.
+- How this was made: a fifth step for the Discord read, with its limits (a search, not a full read; Claude read the memo, not the messages; members cited by role, not handle).
+- Review page: the errata banner notes that its naming discussion is superseded.
+- Works cited: group M (WCMesh Discord), 44 message links, plus the memo and the generator's `assets/app.js`.
+
+Not yet reflected: a full read of the coordination thread; the SoCal administrator's own corrections.
 
 ## Earlier drafts
 
