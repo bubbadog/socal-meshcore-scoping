@@ -1,0 +1,166 @@
+<section id="fixes">
+<h2>Corrected text, ready to paste</h2>
+<p>Each block replaces a named part of Draft v3. Region names in the commands are the plan's own, used as placeholders until Finding 1 is settled. Thresholds marked [[O]] are my proposals and should be argued over.</p>
+
+<h3 id="fix-baseline">Corrected baseline (replaces the &sect;01 tiles)</h3>
+<div class="tw"><table>
+<thead><tr><th>Measure</th><th>Value</th><th>Source and date</th></tr></thead>
+<tbody>
+<tr><td>Repeaters known to the analyzer</td><td class="num">806</td><td>[[F]] 13 Oct 2026. [[@cs-stats]] The Q2 report said "approaching the 600 repeater mark" on 26 Jul. [[@wc-q2:L90]]</td></tr>
+<tr><td>Repeaters in MeshMapper's Los Angeles and San Diego zones</td><td class="num">655; 283</td><td>[[F]] From MeshMapper's leaderboard. [[@mm-board]] [[I]] MeshMapper treats a repeater as active for 30 days by default, so this is not comparable with the line above. [[@mm-admin]]</td></tr>
+<tr><td>Observers feeding the analyzer</td><td class="num">58</td><td>[[F]] In eight region tags; 43 of them tagged LAX or SAN. [[@cs-observers]]</td></tr>
+<tr><td>Unique transmissions observed in 24 hours</td><td class="num">13,549</td><td>[[F]] [[@cs-airtime]]</td></tr>
+<tr><td>Flood events per day, seven-day mean</td><td class="num">about 6,590</td><td>[[C]] 46,134 in seven days. [[@cs-retx]]</td></tr>
+<tr><td>Distinct repeaters relaying each flood</td><td class="num">at least 87</td><td>[[F]] Mean of 87.2 visible in observed paths; the true figure is higher. [[@cs-retx]]</td></tr>
+<tr><td>Channel messages per day</td><td class="num">about 2,850</td><td>[[C]] Week to 13 Oct. [[@cs-rf]] Q2 average was 1,332. [[@wc-q2:L37]]</td></tr>
+<tr><td>Channel messages that are test, bot or wardriving traffic</td><td class="num">68.4%</td><td>[[C]] 13,338 of 19,487. [[@cs-channels]]</td></tr>
+<tr><td>Relay airtime taken by channel messages; by adverts</td><td class="num">44.5%; 18.0%</td><td>[[F]] 24 hours to 13 Oct. [[@cs-airtime]]</td></tr>
+<tr><td>Path length, median; mean</td><td class="num">9; 11.1 hops</td><td>[[F]] [[@cs-topo]]</td></tr>
+<tr><td>Repeaters advertising with multi-byte path hashes</td><td class="num">515 of 783</td><td>[[F]] Implies firmware 1.14 or newer on at least 65.8 percent. [[@cs-hash; wc-multibyte:L29-31]]</td></tr>
+<tr><td>Audited repeaters declaring a named region</td><td class="num">0 of 30</td><td>[[F]] [[@cs-audit]]</td></tr>
+<tr><td>Region names seen on air</td><td><code>psp</code>, <code>san</code>, <code>us</code>, <code>california</code></td><td>[[F]] Decoded from 12 packets, 11 to 13 Oct. [[@own-decode]]</td></tr>
+<tr><td>Channel occupancy at one Conejo Valley repeater, late afternoon</td><td class="num">about 22%</td><td>[[E]] 10 Oct, 46-minute sample. [[@own-telemetry]]</td></tr>
+<tr><td>Range in which the maintainer says the mesh gets overwhelmed</td><td class="num">20 to 25%</td><td>[[F]] Airtime utilization. [[@wc-q2:L39; wc-q1:L22]]</td></tr>
+</tbody></table></div>
+
+<h3 id="fix-names">Namespace crosswalk (working paper for Finding 1)</h3>
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Plan v3</th><th>Generator, since Aug 2026</th><th>MeshMapper zone</th><th>Wiki draft, 3 Mar 2026</th><th>Seen on air</th></tr></thead>
+<tbody>
+<tr><td>All of SoCal</td><td><code>socal</code></td><td><code>socal</code>, under <code>us</code>, <code>west</code>, <code>california</code></td><td>none</td><td><code>socal</code>, under <code>us</code>, <code>ca</code></td><td><code>us</code>, <code>california</code></td></tr>
+<tr><td>Santa Barbara County</td><td><code>sba</code></td><td><code>santabarbara</code></td><td>SBA</td><td><code>sb</code></td><td></td></tr>
+<tr><td>Ventura County</td><td><code>oxr</code></td><td><code>ventura</code></td><td>OXR</td><td><code>vta</code></td><td></td></tr>
+<tr><td>Los Angeles County</td><td><code>lax</code>, <code>lgb</code></td><td><code>losangeles</code></td><td>LAX</td><td><code>la</code></td><td></td></tr>
+<tr><td>Orange County</td><td><code>sna</code></td><td><code>orangecounty</code></td><td>none listed</td><td><code>oc</code></td><td></td></tr>
+<tr><td>Inland Empire</td><td><code>ont</code></td><td><code>sanbernardino</code>, <code>riverside</code></td><td>none listed</td><td><code>ie</code></td><td></td></tr>
+<tr><td>Coachella Valley</td><td><code>psp</code></td><td><code>coachellavalley</code>, an area under <code>riverside</code></td><td>PSP</td><td>not separate</td><td><code>psp</code></td></tr>
+<tr><td>San Diego County</td><td><code>san</code></td><td><code>sandiego</code></td><td>SAN</td><td><code>sd</code></td><td><code>san</code></td></tr>
+<tr><td>Imperial County</td><td>none</td><td><code>imperial</code></td><td>none listed</td><td>none</td><td></td></tr>
+<tr><td>Conejo Valley</td><td><code>oxr-conejo</code></td><td><code>conejovalley</code></td><td>none</td><td>none</td><td></td></tr>
+</tbody></table></div>
+<p class="small">[[F]] Sources by column: [[@plan:§05, §06]]; [[@mk-data:L112-118, L945-1278]]; [[@mm-socal]]; [[@wc-regions-old:L7-28]]; [[@own-decode]].</p>
+<p>[[O]] Three ways to converge, each with a cost. <strong>A.</strong> Adopt the generator's tree as it stands. The maintainer wrote it and a tool already emits it. A Conejo repeater then carries six names, three of which (<code>us</code>, <code>west</code>, <code>california</code>) do nothing inside an isolated SoCal, and today's <code>psp</code> and <code>san</code> users re-tag. <strong>B.</strong> Adopt the plan's airport metros and have the generator and wiki changed. This asks the maintainer to reverse his August work. <strong>C.</strong> A short flat set: <code>socal</code>, one metro name per MeshMapper zone, and the generator's area names for local tags. This reuses each existing vocabulary at the layer where a tool already emits it, avoids names that are prefixes of other names, and keeps a repeater to three entries. I lean to C with low confidence. Whichever is chosen, the choice belongs to the people who maintain the three tools.</p>
+
+<h3 id="fix-rollout">Corrected rollout with gates (replaces &sect;04)</h3>
+<ol>
+<li><strong>Now, independent of scoping.</strong> [[R]] Apply the WCMesh repeater settings as published (Finding 6). Ask bot owners for acknowledgement-only behavior, as the Q2 report proposes. [[@wc-q2:L39]] Check <code>get flood.max.advert</code> returns 8 or less on 1.16 and newer. [[@fw-rep:L907]] Design a <code>flood.max</code> trial (Finding 14).</li>
+<li><strong>Phase 0, decide and measure.</strong> [[R]] One vocabulary agreed with the three tool maintainers. A firmware census. Baseline counters from at least five reference repeaters in different metros. The agreed names loaded into the analyzer's <code>hashRegions</code>. [[@cs-src-cfg:L400-404]] The raw baseline archived as a file. <em>Gate:</em> all five exist in writing.</li>
+<li><strong>Phase 1a, tags only.</strong> [[R]] Repeater owners add the metro tag and <code>socal</code> with flooding allowed. No default scope. The wildcard stays allowed. <em>Gate, per metro</em> [[O]]: a test message scoped to the metro and sent from one edge is heard at every observer in that metro on three separate days.</li>
+<li><strong>Phase 1b, default scope on repeaters.</strong> [[R]] <code>region default &lt;metro&gt;</code> only in metros that passed the gate. <em>Check:</em> each repeater's next flood advert still reaches an observer.</li>
+<li><strong>Phase 2a, machines.</strong> [[R]] The MeshMapper administrator sets the Wardriving Scope for that zone, and bot owners set the bot radio's default scope to the metro. [[@mm-admin; blog-default]] <em>Gate</em> [[O]]: MeshMapper coverage for the zone is unchanged week over week, and relays per flood on #wardriving and the bot channels have fallen.</li>
+<li><strong>Phase 2b, people.</strong> [[R]] Local channels may be scoped to the metro by their users. Companion default scope moves to <code>socal</code> only after the wide gate [[O]]: a <code>socal</code>-scoped message reaches every observer site, and the census shows at least 95 percent of repeaters carrying <code>socal</code>. Emergency and alert channels stay unscoped through this phase.</li>
+<li><strong>Phase 3, containment, optional.</strong> [[R]] On 1.16 and newer, step <code>flood.max.unscoped</code> down from 12, one step at a time (12, 8, 5), holding each for 30 days and reversing if delivery tests fail. Consider <code>region denyf *</code> only after the unscoped share of flood-routed channel messages has stayed under 5 percent for 30 days [[O]], and only by agreement across the whole mesh. [[F]] The Dutch guide warns that <code>region denyf *</code> "only works reliably from v1.15 onwards". [[@nl-guide:L56]]</li>
+</ol>
+
+<h3 id="fix-cookbook">Corrected cookbook (replaces the &sect;05 and &sect;07 command blocks)</h3>
+<p>[[F]] Five rules first. (1) Names are lower case, at most 29 bytes, letters, digits and hyphen. [[@blog-region]] (2) No name may be the beginning of another name, because the CLI matches by prefix. [[@fw-regionmap:L218-231]] (3) Before any <code>allowf</code>, <code>denyf</code> or <code>default</code>, run <code>region get &lt;name&gt;</code> and check that the reply echoes exactly the name you meant. [[@fw-cli:L1086-1097]] (4) <code>region default</code> saves everything at once and invents a region from a typo. [[@fw-cli:L1109-1128]] (5) [[R]] Work over USB or from direct radio range, and confirm you can still log in before you leave.</p>
+
+<div class="cb"><div class="cap"><span>0. Inventory, any version. A command your firmware lacks answers with an error, which tells you its generation.</span><button type="button" data-copy>Copy</button></div><pre>ver
+region
+region default
+get flood.max
+get flood.max.advert
+get flood.max.unscoped
+get loop.detect
+get advert.interval</pre></div>
+
+<div class="cb"><div class="cap"><span>1. Tags only, firmware 1.16 or newer. Metro repeater, Ventura side.</span><button type="button" data-copy>Copy</button></div><pre>region def oxr|* socal
+region save
+region get oxr
+region get socal</pre></div>
+<p class="small">[[F]] <code>region def</code> answers with the resulting tree. Each <code>region get</code> should answer with the name followed by <code>F</code>, meaning flooding is allowed. [[@fw-cli:L1041-1057, L1086-1097]]</p>
+
+<div class="cb"><div class="cap"><span>2. Tags only, firmware 1.15.</span><button type="button" data-copy>Copy</button></div><pre>region put oxr
+region put socal
+region save
+region get oxr
+region get socal</pre></div>
+<p class="small">[[F]] Each <code>region put</code> answers "OK - (flood allowed)". [[@fw-v115:L971-981]]</p>
+
+<div class="cb"><div class="cap"><span>3. Tags only, firmware 1.12 to 1.14. Upgrade instead if the site can be reached.</span><button type="button" data-copy>Copy</button></div><pre>region put oxr
+region allowf oxr
+region put socal
+region allowf socal
+region save</pre></div>
+<p class="small">[[F]] On these versions a new region starts denied, and there is no default scope. [[@fw-v1141:L1234-1245; blog-default]] [[F]] Version 1.11 only matches names that begin with <code>#</code>; the requirement was dropped in 1.12. [[@fw-v111:L123-134; blog-region]]</p>
+
+<div class="cb"><div class="cap"><span>4. Other roles, firmware 1.16 or newer. Run one line, then region save.</span><button type="button" data-copy>Copy</button></div><pre>region def socal
+region def oxr|* sba|* socal</pre></div>
+<p class="small">The first line is a wide-only backbone site. The second is an overlap repeater on the Ventura and Santa Barbara seam.</p>
+
+<div class="cb"><div class="cap"><span>5. Default scope, Phase 1b only, firmware 1.15 or newer.</span><button type="button" data-copy>Copy</button></div><pre>region get oxr
+region default oxr
+advert</pre></div>
+<p class="small">[[F]] The reply must read "default scope is now oxr". It saves immediately. <code>advert</code> sends a flood advert at once so you can check it still reaches an observer. Undo with <code>region default &lt;null&gt;</code>. [[@fw-cli:L195-197, L1109-1128]]</p>
+
+<div class="cb"><div class="cap"><span>6. Phase 3, option A: limit unscoped hops. Firmware 1.16 or newer. Never combine with block 7.</span><button type="button" data-copy>Copy</button></div><pre>set flood.max.unscoped 12
+get flood.max.unscoped</pre></div>
+<p class="small">[[F]] Saved on entry; no <code>region save</code> needed. Undo with <code>set flood.max.unscoped 64</code>. A value of 0 has the same effect as denying the wildcard. [[@fw-cli:L632-639; fw-routing:L19; ca-onqc:L617]]</p>
+
+<div class="cb"><div class="cap"><span>7. Phase 3, option B: strict forwarding. Firmware 1.15 or newer, by mesh-wide agreement only.</span><button type="button" data-copy>Copy</button></div><pre>region denyf *
+region save</pre></div>
+<p class="small">[[F]] Undo with <code>region allowf *</code> then <code>region save</code>. [[@pnw-rollout:L241]]</p>
+
+<div class="cb"><div class="cap"><span>8. Remove a name added by mistake. The name must be exact and must have no children.</span><button type="button" data-copy>Copy</button></div><pre>region remove oxr-typo
+region save</pre></div>
+
+<h3 id="fix-channels">Corrected channel table (replaces the &sect;05 table)</h3>
+<div class="tw"><table>
+<thead><tr><th>Channels</th><th>Messages, week to 13 Oct</th><th>Scope</th><th>Who sets it</th><th>Note</th></tr></thead>
+<tbody>
+<tr><td>#test, #testing, #bot, #meshbud, #volcano, #foobot and similar</td><td class="num">8,668</td><td>Metro of the tester or bot</td><td>Bot owners (the bot radio's default scope); users per channel</td><td>[[I]] Largest lever. A bot answers under its own scope, so tests become local tests.</td></tr>
+<tr><td>#wardriving</td><td class="num">4,670</td><td>The zone's metro tag</td><td>MeshMapper administrator, per zone</td><td>[[F]] One setting covers every Active and Hybrid ping. [[@mm-admin]] [[I]] Turn it on only after the zone's repeaters carry the tag, or pings are dropped.</td></tr>
+<tr><td>Public</td><td class="num">4,324</td><td><code>socal</code>, in Phase 2b</td><td>Each user</td><td>[[I]] No airtime saving; this is preparation for Phase 3.</td></tr>
+<tr><td>Topic channels: #hardware, #hamradio, #chat, #3dprinting</td><td class="num">866</td><td><code>socal</code>, in Phase 2b</td><td>Each user</td><td>Region-wide by nature.</td></tr>
+<tr><td>County and city channels: #sandiego, #orangecounty, #venturacounty, #inlandempire, #losangeles and others</td><td class="num">502</td><td>Metro tag, opt-in</td><td>Each user</td><td>[[I]] Do it for consistency. The load benefit is about 1 percent of relay airtime at most.</td></tr>
+<tr><td>#emergency, #socalalert, #socal-incidents, #watchduty, #earthquake, #emcommplanning, #cert, #weather, #wx</td><td class="num">457 counted</td><td>Unscoped until the wide gate is passed, then <code>socal</code></td><td>Channel owners</td><td>[[I]] Unscoped is the widest reach available while the wildcard is allowed. [[F]] #weather includes automated posts already scoped <code>california</code>. [[@own-decode]]</td></tr>
+<tr><td>Communities that straddle a metro line, such as #claremontupland</td><td class="num">small</td><td>A local tag owned by no metro</td><td>The local group</td><td>See Finding 12.</td></tr>
+</tbody></table></div>
+<p class="small">[[F]] Counts from the analyzer's per-channel totals; grouping is mine. #emergency and #watchduty are in the WCMesh channel list and were not among the channels the analyzer returned. [[@cs-channels; wc-channels:L30-31, L192-193]]</p>
+
+<h3 id="fix-pilot">Corrected pilot protocol (replaces the &sect;07 criteria)</h3>
+<p>[[R]] Run two pilots, because they answer different questions.</p>
+<p><strong>Pilot A, mechanics, Conejo Valley.</strong></p>
+<ol>
+<li><strong>Partners.</strong> At least three contiguous repeaters: SkyNet, one neighbor toward Los Angeles, and NP-CAM Grade, which carried SkyNet's advert to the Camarillo observer in one hop. [[@cs-advert]] Ask the analyzer's maintainer to load the test names first.</li>
+<li><strong>Instrument.</strong> On-node counters on each pilot repeater, read before and after: flood packets received and sent, duplicates, receive errors, transmit and receive airtime. [[@fw-stats:L28-50; own-telemetry]] The analyzer is the secondary check.</li>
+<li><strong>Configure.</strong> Tags only, using the block for each node's firmware. No default scope yet.</li>
+<li><strong>Test 1, positive control.</strong> Send a message scoped to the pilot tag from one end of the cell. <em>Pass:</em> a companion at the other end, two hops away, receives it.</li>
+<li><strong>Test 2, negative control.</strong> The same message must not be received by a companion one hop outside the cell, and the analyzer must show no path that leaves the pilot nodes. <em>If it leaks:</em> suspect a pre-1.10 repeater and record which one. [[@blog-region]]</li>
+<li><strong>Test 3, unscoped control.</strong> An unscoped message sent in the same minute still arrives outside the cell.</li>
+<li><strong>Test 4, the app and capitals.</strong> Type the scope in mixed case in the app and repeat Test 1. This is the case test that matters.</li>
+<li><strong>Test 5, default scope.</strong> Set the default on one pilot node, send <code>advert</code>, and count the observations the analyzer records against the 64 it recorded for SkyNet's unscoped advert on 11 October. [[@cs-advert]] <em>Prediction:</em> far fewer, possibly none.</li>
+<li><strong>Test 6, direct messages.</strong> With one companion's default scope set to the pilot tag and the other unset, exchange direct messages both ways and note which acknowledgements arrive.</li>
+</ol>
+<p>[[I]] Pilot A can prove the mechanism and expose leaks. It cannot show a load reduction, because a few test messages are invisible against roughly 6,600 floods a day. [[@cs-retx]]</p>
+<p><strong>Pilot B, load, one MeshMapper zone.</strong> [[R]] Pick the zone with the best repeater coverage of its tag, set the Wardriving Scope for that zone only, and compare relays per #wardriving ping and MeshMapper coverage results for two weeks before and after. [[@mm-admin; cs-retx]] This is the pilot that can show the benefit, and it needs the MeshMapper administrator.</p>
+
+<h3 id="fix-terrain">Corrected barrier table (replaces the &sect;06 inventory)</h3>
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>What it separates</th><th>Gaps and passes</th><th>Source</th></tr></thead>
+<tbody>
+<tr><td>Santa Ynez Mountains</td><td>Santa Barbara coast (south) from the Santa Ynez River valley (north)</td><td></td><td>[[@geo-ynez]]</td></tr>
+<tr><td>Santa Monica Mountains</td><td>Conejo Valley and San Fernando Valley (north) from the Malibu coast and the LA Basin (south)</td><td>Sepulveda Pass, Cahuenga Pass</td><td>[[@geo-smm]]</td></tr>
+<tr><td>Simi Hills</td><td>Simi Valley (north) from the Conejo Valley (southwest) and the San Fernando Valley (east)</td><td>Santa Susana Pass, at the north end</td><td>[[@geo-simi; geo-susana]]</td></tr>
+<tr><td>Santa Susana Mountains</td><td>San Fernando and Simi valleys (south) from the Santa Clara River and Santa Clarita valleys (north)</td><td>Newhall Pass, at the east end</td><td>[[@geo-susana; geo-scv]]</td></tr>
+<tr><td>Conejo Grade</td><td>Conejo Valley from the Oxnard Plain</td><td>The grade itself, on US 101</td><td>[[@geo-grade]]</td></tr>
+<tr><td>San Gabriel Mountains</td><td>LA Basin (south) from the Antelope Valley and Mojave Desert (north); they also bound the Santa Clarita Valley on its east</td><td>Newhall Pass, at the west end; Cajon Pass, at the east end</td><td>[[@geo-sgm; geo-scv]]</td></tr>
+<tr><td>Santa Ana Mountains and Chino Hills</td><td>Orange County from the Inland Empire</td><td>Santa Ana Canyon, State Route 91</td><td>[[@geo-sac]]</td></tr>
+<tr><td>San Bernardino and San Jacinto mountains</td><td>Inland valleys from the Victor Valley and from the Coachella Valley</td><td>Cajon Pass; San Gorgonio Pass</td><td>[[@geo-cajon; geo-gorgonio]]</td></tr>
+<tr><td>Cuyamaca and Laguna mountains</td><td>Coastal and inland-valley San Diego, including suburban East County, from the desert</td><td></td><td>[[@geo-east]]</td></tr>
+</tbody></table></div>
+<p class="small">[[I]] For the Santa Ana and the Cuyamaca and Laguna rows, the "what it separates" column restates the plan's reading and ordinary geography; my sources confirm the gap and the place names, not the divide itself. [[U]] The Verdugo and Repetto hills and Soledad Pass, named in the plan or relevant to it, were not checked. [[I]] The table is still desk analysis. Its only job is to suggest where to measure.</p>
+
+<h3 id="fix-kpi">Measures that can fail (replaces "the unscoped share trends down")</h3>
+<div class="tw"><table>
+<thead><tr><th>Measure</th><th>Instrument</th><th>Baseline</th><th>Reads as failure when</th></tr></thead>
+<tbody>
+<tr><td>Channel occupancy at reference repeaters</td><td>Change in transmit plus receive airtime over 24 hours, from the repeater's status screen or <code>stats-radio</code> [[@fw-stats:L28]]</td><td>[[E]] About 22% at one site at peak [[@own-telemetry]]</td><td>It does not fall after Phase 2a</td></tr>
+<tr><td>Relays per flood</td><td>Analyzer retransmissions endpoint [[@cs-retx]]</td><td>[[F]] 87.2</td><td>Flat after machines are scoped</td></tr>
+<tr><td>Duplicate share of received floods</td><td>On-node packet counters</td><td>[[C]] 80% at SkyNet [[@own-telemetry]]</td><td>Flat or rising</td></tr>
+<tr><td>Receive error rate</td><td>On-node receive errors over decode attempts</td><td>[[C]] 13.2% at SkyNet [[@own-telemetry]]</td><td>Rising</td></tr>
+<tr><td>Delivery</td><td>Scheduled test messages between fixed pairs: inside a metro, across metros, and wide</td><td>To be measured in Phase 0</td><td>Any pair that worked unscoped stops working scoped</td></tr>
+<tr><td>Scoped share, properly bounded</td><td>Flood-routed channel messages carrying a code that matches a known name, by channel [[@cs-src-cfg:L400-404]]</td><td>[[F]] 12 well-formed scoped packets among the latest 58 transport-route packets [[@cs-packets]]</td><td>It rises while occupancy does not fall: scoping without containment</td></tr>
+<tr><td>Coverage of each tag</td><td>Analyzer scope audit, MeshMapper scope discovery [[@cs-audit; mm-admin]]</td><td>[[F]] 0 of 30 audited repeaters</td><td>Gates are declared passed without it</td></tr>
+</tbody></table></div>
+</section>

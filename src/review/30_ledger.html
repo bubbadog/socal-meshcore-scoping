@@ -1,0 +1,227 @@
+<section id="ledger">
+<h2>Claim ledger</h2>
+<p>Every checkable statement of fact in the plan, in the plan's order, with a verdict, the evidence, and wording to use instead where the original does not hold. Recommendations and open questions in the plan are not listed; the findings above deal with those.</p>
+<div class="flt" role="group" aria-label="Filter the ledger by verdict">
+<button type="button" id="flt-all" data-f="all" aria-pressed="true">All [[#total]]</button>
+<button type="button" id="flt-wrong" data-f="wrong" aria-pressed="false">Wrong or unsupported [[#wrong]]</button>
+<button type="button" id="flt-src" data-f="src" aria-pressed="false">Wrong source [[#src]]</button>
+<button type="button" id="flt-old" data-f="old" aria-pressed="false">Out of date [[#old]]</button>
+<button type="button" id="flt-cav" data-f="cav" aria-pressed="false">Caveat [[#cav]]</button>
+<button type="button" id="flt-unv" data-f="unv" aria-pressed="false">Unverified [[#unv]]</button>
+<button type="button" id="flt-ok" data-f="ok" aria-pressed="false">Confirmed [[#ok]]</button>
+</div>
+<div id="lg-list">
+
+<article class="lg" data-v="wrong"><div class="vd"><span class="id">&sect;01, RT-3</span><b>Wrong label</b></div><div>
+<p class="cl">"99.5% of observed transport routes were unscoped in the 12 Oct CoreScope snapshot"</p>
+<p class="ev">[[F]] The analyzer's unscoped total includes every ordinary flood and every direct-routed packet. Transport-route packets are the small set that carry codes: 65 in my 24-hour window, 64 of them scoped. [[@cs-src-db:L3270-3299; cs-scope]] See <a href="#f8">Finding 8</a>.</p>
+<p><strong>Use instead:</strong> "99.5% of all transmissions the analyzer observed (floods and direct packets together) carried no region scope."</p></div></article>
+
+<article class="lg" data-v="old"><div class="vd"><span class="id">&sect;01</span><b>Out of date</b></div><div>
+<p class="cl">"~600 repeaters in West Coast Mesh, approaching the Q2 2026 reported count"</p>
+<p class="ev">[[F]] The report said "we are approaching the 600 repeater mark" on 26 July. [[@wc-q2:L7, L90]] [[F]] The analyzer listed 806 repeaters, 183 companions and 48 room servers on 13 October. [[@cs-stats]] [[U]] The analyzer does not say how long an unheard node stays on its list, so 806 may include some that have gone quiet.</p>
+<p><strong>Use instead:</strong> "About 800 repeaters are known to the SoCal analyzer (806 on 13 Oct 2026). The Q2 report put the mesh near 600 in late July."</p></div></article>
+
+<article class="lg" data-v="old"><div class="vd"><span class="id">&sect;01</span><b>Out of date</b></div><div>
+<p class="cl">"1,332/day reported channel-message total"</p>
+<p class="ev">[[F]] Correct as the April to June average. [[@wc-q2:L37, L44]] [[C]] The week to 13 October ran at 2,846 a day on the analyzer (19,919 in 168 hours). [[@cs-rf]] [[U]] Method comparability unconfirmed.</p>
+<p><strong>Use instead:</strong> "1,332 channel messages a day on average in Q2. The analyzer shows about 2,850 a day for the week to 13 Oct."</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">&sect;01</span><b>Confirmed, caveat</b></div><div>
+<p class="cl">"20 to 25%, the community's Q2 estimate of the overwhelm threshold"</p>
+<p class="ev">[[F]] The number is right. The plan leaves out the first half of the sentence, "We are starting to hit that", and the unit, which is airtime utilization. [[@wc-q2:L39; wc-q1:L22]]</p>
+<p><strong>Use instead:</strong> "The Q2 report says the mesh is starting to hit the 20 to 25% airtime utilization at which it gets overwhelmed."</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">&sect;01</span><b>Confirmed, caveat</b></div><div>
+<p class="cl">"SoCal uses 927.875 MHz, SF7, CR5, creating a hard RF boundary from the Bay Area, Central Valley, and Central Coast"</p>
+<p class="ev">[[F]] SoCal: 927.875 MHz, 62.5 kHz, SF7, CR5. The other three are listed at 910.525 MHz. [[@wc-radio:L9-13]] [[F]] The plan omits the bandwidth, and WCMesh notes that coding rate may differ per device while "Every other parameter has to match." [[@wc-radio:L16]] [[C]] The two centre frequencies are 17.35 MHz apart. [[I]] "Hard RF boundary" follows from that; it is my reading and the plan's, and neither of us measured it.</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">&sect;01</span><b>Confirmed, caveat</b></div><div>
+<p class="cl">"ScotMesh reports that roughly 24,000 daily flood packets from the wider UK mesh nearly overwhelmed its network before regions were introduced"</p>
+<p class="ev">[[F]] The source says the mesh "was dying under the flood traffic from England (24,000 flood packets &amp; 600+ messages daily)". [[@scot-regions:L15]] [[I]] The comparison to SoCal is weak: that was a neighbor's traffic arriving on a shared frequency. See <a href="#f7">Finding 7</a>.</p></div></article>
+
+<article class="lg" data-v="wrong"><div class="vd"><span class="id">&sect;01</span><b>Unsupported</b></div><div>
+<p class="cl">"The network is healthy." "...while load is still modest."</p>
+<p class="ev">[[F]] The plan's own source says the mesh is starting to hit its overwhelm range, and live traffic is about double the quoted figure. [[@wc-q2:L39; cs-rf]] See <a href="#f2">Finding 2</a>.</p></div></article>
+
+<article class="lg" data-v="src"><div class="vd"><span class="id">&sect;02</span><b>Right, wrong source</b></div><div>
+<p class="cl">"Matching is per name, there is no inheritance, so each repeater must carry the entire intended ancestry." Cited to the CLI docs and the FAQ.</p>
+<p class="ev">[[F]] Correct. The match loop tests each allowed name's code and never reads the parent field. [[@fw-regionmap:L190-204]] [[F]] The FAQ does not discuss scopes at all. [[@fw-docs-faq]] [[F]] The PNW guide says the same in plain words: the parent column "doesn't change forwarding". [[@pnw-rollout:L105]]</p>
+<p><strong>Cite instead:</strong> <code>RegionMap.cpp</code> at the release tag, lines 190 to 204.</p></div></article>
+
+<article class="lg" data-v="ok"><div class="vd"><span class="id">&sect;02</span><b>Confirmed</b></div><div>
+<p class="cl">"DMs with a known path are routed directly; only floods are scope-checked."</p>
+<p class="ev">[[F]] The forwarding gate applies its region test only to flood-routed packets, and a direct packet's region is set to nothing on receive. [[@fw-rep:L434-443, L556-568]]</p></div></article>
+
+<article class="lg" data-v="ok"><div class="vd"><span class="id">&sect;02</span><b>Confirmed</b></div><div>
+<p class="cl">"2 &times; 16-bit codes"</p>
+<p class="ev">[[F]] Two 16-bit codes are written after the header on transport routes. [[@fw-packet:L52-58]] [[F]] Current firmware always sends the second as zero; the source marks it for future use. [[@fw-rep:L997-1005]]</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">&sect;02</span><b>Confirmed, caveat</b></div><div>
+<p class="cl">"Scope spelling does not cost extra airtime."</p>
+<p class="ev">[[F]] True of the spelling: the name is never sent, only its code. [[@fw-tks:L4-18]] [[C]] Scoping itself costs 4 bytes per flood, about 10 ms or 4% on an average 56-byte packet at this preset. [[@fw-packet:L52-58; own-toa]]</p></div></article>
+
+<article class="lg" data-v="src"><div class="vd"><span class="id">&sect;02</span><b>Right, wrong source</b></div><div>
+<p class="cl">"On Public, the message limit changes from 137 to 127 characters." Cited to the MeshCore FAQ.</p>
+<p class="ev">[[F]] The figure is one Canadian test of the app, with the warning that it "can vary with your node name and app version". [[@ca-onqc:L729-732]] The FAQ has no such statement. [[@fw-docs-faq]]</p>
+<p><strong>Use instead:</strong> "The app allows slightly shorter messages on a scoped channel. Canada's testers saw Public drop from 137 to 127 characters; the exact limit depends on node name and app version."</p></div></article>
+
+<article class="lg" data-v="src"><div class="vd"><span class="id">&sect;02</span><b>Right, wrong source</b></div><div>
+<p class="cl">"Nodes support 32 region entries, chains up to 8 levels, and codes up to 30 characters." Cited to the CLI docs.</p>
+<p class="ev">[[F]] 32 and 30 come from the source, not the docs. [[@fw-regionmap-h:L7-8, L18]] [[F]] The firmware author publishes 29 bytes as the limit. [[@blog-region]] [[F]] "max 8 levels" is a property of <code>region load</code> indentation. [[@fw-docs-cli:L761]]</p>
+<p><strong>Use instead:</strong> "A repeater holds 32 region names besides the wildcard. Keep names to 29 bytes or fewer, lower case, letters, digits and hyphen."</p></div></article>
+
+<article class="lg" data-v="ok"><div class="vd"><span class="id">&sect;02</span><b>Confirmed</b></div><div>
+<p class="cl">"Regions exist from 1.10"</p>
+<p class="ev">[[F]] The firmware author dates region config and filtering to the "repeater v1.10.0 release". [[@blog-region]] [[F]] That tag is dated 13 November 2025. [[@gh-tags]]</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">&sect;02</span><b>Confirmed, caveat</b></div><div>
+<p class="cl">"use 1.15+ minimum and target 1.16+ for flood.max.unscoped"</p>
+<p class="ev">[[F]] <code>flood.max.unscoped</code> arrived in 1.16.0, and WCMesh asks for 1.15.0 or newer. [[@blog-116; wc-q2:L95]] [[I]] The plan then gives no command that runs on 1.15. See <a href="#f11">Finding 11</a>.</p></div></article>
+
+<article class="lg" data-v="ok"><div class="vd"><span class="id">&sect;02</span><b>Confirmed</b></div><div>
+<p class="cl">"Out of the box, a repeater carries only * (unscoped). region denyf * drops all unscoped floods and is therefore breaking. The gentler 1.16+ control is set flood.max.unscoped."</p>
+<p class="ev">[[F]] The wildcard starts with flooding allowed and no other region exists by default. [[@fw-regionmap:L46-49]] [[F]] With the wildcard denied, an unscoped flood gets no region and is not forwarded. [[@fw-rep:L440-443, L559-564]] [[F]] The unscoped hop limit is a separate test. [[@fw-routing:L19]]</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">&sect;02</span><b>Confirmed, caveat</b></div><div>
+<p class="cl">"Companion apps expose per-channel scope, Default Region Scope, and Tools &rarr; Discover Regions."</p>
+<p class="ev">[[F]] Per-channel "Set Region Scope" since app 1.38.0; default scope in app 1.43.0 under Experimental Settings; "Tools &rarr; Discover Regions" per the PNW guide. [[@blog-region; blog-default; pnw-rollout:L156-161]] [[U]] Confirmed from those documents only. I did not inspect the app.</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">&sect;03</span><b>Confirmed, caveat</b></div><div>
+<p class="cl">Role A: "Its default is the metro, so its own adverts remain local."</p>
+<p class="ev">[[F]] Correct mechanics. [[@fw-rep:L1031-1038]] [[I]] "Local" means "forwarded only by repeaters that already hold the metro tag", which for a first mover is none. See <a href="#f4">Finding 4</a>.</p></div></article>
+
+<article class="lg" data-v="ok"><div class="vd"><span class="id">&sect;03</span><b>Confirmed</b></div><div>
+<p class="cl">"RF reach does not create a scope boundary: a mountaintop can hear far while forwarding only matching tags."</p>
+<p class="ev">[[F]] Forwarding depends on the region table alone. [[@fw-rep:L434-443]]</p></div></article>
+
+<article class="lg" data-v="src"><div class="vd"><span class="id">&sect;03</span><b>Right, wrong source</b></div><div>
+<p class="cl">"A pathless DM floods under the default scope, so the default must be wide enough to find a recipient." Cited to the FAQ.</p>
+<p class="ev">[[F]] Correct, from the firmware author's post and the companion source. [[@blog-default; fw-comp:L500-510]] The FAQ does not say it. [[@fw-docs-faq]]</p></div></article>
+
+<article class="lg" data-v="ok"><div class="vd"><span class="id">&sect;03</span><b>Confirmed</b></div><div>
+<p class="cl">"If a channel is scoped before every repeater on its path carries that tag, reach shrinks."</p>
+<p class="ev">[[F]] Stated in the PNW troubleshooting section and visible in the forwarding gate. [[@pnw-rollout:L235; fw-rep:L440-443]]</p></div></article>
+
+<article class="lg" data-v="ok"><div class="vd"><span class="id">&sect;03</span><b>Confirmed</b></div><div>
+<p class="cl">"Never rename a published code. A rename silently splits a mesh."</p>
+<p class="ev">[[F]] "The region names must be <em>exact</em>, any misspellings will be treated as a completely different region!" [[@blog-region]]</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">&sect;03, RT-6</span><b>Already answerable</b></div><div>
+<p class="cl">"Use lowercase provisionally. Case behavior must pass the Phase-1 bench test before rollout."</p>
+<p class="ev">[[F]] The published rule is lower case only, and repeater firmware treats case as significant. [[@blog-region; fw-regionmap:L52-55, L207-216]] [[U]] Only the app's handling of typed capitals is open. See <a href="#f11">Finding 11</a>.</p>
+<p><strong>Use instead:</strong> "Region names are lower case. Repeaters treat <code>OXR</code> and <code>oxr</code> as different regions."</p></div></article>
+
+<article class="lg" data-v="wrong"><div class="vd"><span class="id">&sect;04</span><b>Unsupported</b></div><div>
+<p class="cl">"Four communities ... support the same sequence: tag repeaters, then scope companions, then consider restrictions by coordination."</p>
+<p class="ev">[[F]] Scotland denied the wildcard first; Canada's edge repeaters deny it in Phase 1; the Netherlands requires it as the last step; the PNW has no dates. [[@scot-regions:L66-74; ca-onqc:L342; nl-guide:L157-164; pnw-rollout:L5-10]] See <a href="#f7">Finding 7</a>.</p></div></article>
+
+<article class="lg" data-v="unv"><div class="vd"><span class="id">&sect;04</span><b>Could not verify</b></div><div>
+<p class="cl">"Scotland is the only cited reference community to have completed this step."</p>
+<p class="ev">[[F]] The Dutch guide scheduled the same step for 18 July 2026. [[@nl-commits]] [[U]] I found no statement of whether it happened. The firmware author also mentions German meshes "trying to disable un-scoped traffic". [[@blog-default]]</p></div></article>
+
+<article class="lg" data-v="wrong"><div class="vd"><span class="id">&sect;04</span><b>Contradicts local standard</b></div><div>
+<p class="cl">"zero-hop 4h, set loop.detect minimal"</p>
+<p class="ev">[[F]] WCMesh publishes <code>set advert.interval 0</code> and <code>set loop.detect moderate</code>. [[@wc-radio:L25-27]] See <a href="#f6">Finding 6</a>.</p></div></article>
+
+<article class="lg" data-v="ok"><div class="vd"><span class="id">&sect;04</span><b>Confirmed</b></div><div>
+<p class="cl">"flood advert 47h+ ... unique two-byte key prefixes"</p>
+<p class="ev">[[F]] Both match WCMesh guidance: 47 hours, "Higher the better", and a request to change keys when prefixes collide. [[@wc-radio:L26; wc-setup:L26]]</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">&sect;05</span><b>Confirmed, caveat</b></div><div>
+<p class="cl">"CoreScope labels 11 geographic regions with airport codes."</p>
+<p class="ev">[[F]] Eleven codes are configured. Eight have display names such as "Oxnard, CA"; BFL, FAT and MCE have none. [[@cs-regions]] [[F]] The codes are assigned by each observer's operator. [[@cs-readme:L190-191]]</p></div></article>
+
+<article class="lg" data-v="ok"><div class="vd"><span class="id">&sect;05</span><b>Confirmed</b></div><div>
+<p class="cl">"active observers in eight southern regions; the three Central Valley labels had no active observers"</p>
+<p class="ev">[[F]] 58 observers: LAX 25, SAN 18, ONT 4, OXR 3, SBA 3, SNA 2, PSP 2, LGB 1, and none under BFL, FAT or MCE. [[@cs-observers]]</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">&sect;05, RT-2</span><b>Confirmed, caveat</b></div><div>
+<p class="cl">"configuration adoption is effectively zero"</p>
+<p class="ev">[[F]] None of the 30 repeaters in the analyzer's scope audit declares a named region. [[@cs-audit]] [[F]] It is not zero: at least four region names are in use on air, two of them the plan's own airport codes. [[@own-decode]]</p></div></article>
+
+<article class="lg" data-v="wrong"><div class="vd"><span class="id">&sect;05, RT-12</span><b>Wrong</b></div><div>
+<p class="cl">"Choosing socal also aligns with the alternative matkam California scheme's existing tag concept."</p>
+<p class="ev">[[F]] Since 3 August 2026 the scheme declares no tags and treats <code>socal</code> as a level with counties and areas beneath it. [[@mk-data:L127-130, L945; mk-c1]] See <a href="#f1">Finding 1</a>.</p></div></article>
+
+<article class="lg" data-v="ok"><div class="vd"><span class="id">RT-1</span><b>Confirmed</b></div><div>
+<p class="cl">"PNW and matkam already root their hierarchies [at west]"</p>
+<p class="ev">[[F]] A Seattle repeater in the PNW plan carries <code>west</code>, <code>pnw</code>, <code>wa</code>, <code>w-wa</code>, <code>sea</code>. [[@pnw-rollout:L103]] [[F]] The generator's root chain is <code>us</code>, <code>west</code>, <code>california</code>. [[@mk-data:L112-118]]</p></div></article>
+
+<article class="lg" data-v="ok"><div class="vd"><span class="id">&sect;05</span><b>Confirmed</b></div><div>
+<p class="cl">"negotiate explicit bilateral tags, similar to ScotMesh's ioi precedent"</p>
+<p class="ev">[[F]] Scotland and Ireland carry each other's traffic only where both sides configure the <code>ioi</code> region. [[@scot-regions:L116-122]]</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">&sect;05</span><b>Confirmed, caveat</b></div><div>
+<p class="cl">The channel scope table (13 named channels)</p>
+<p class="ev">[[F]] All thirteen exist: seven are in the WCMesh channel list and the rest appear in the analyzer. [[@wc-channels; cs-channels]] [[F]] The eight metro channels the table names carried 444 messages in the retained week, 2.3 percent of the total, and the table has no row for the channel carrying 24 percent. [[@cs-channels]] [[F]] WCMesh describes #southbay only as "Local chat for South Bay" and #losangeles as county-wide, so "corresponding metro code" is undefined for several rows. [[@wc-channels:L129-130, L178-179]]</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">&sect;05, RT-7</span><b>Confirmed, caveat</b></div><div>
+<p class="cl">"Syntax follows the MeshCore CLI documentation."</p>
+<p class="ev">[[F]] The three <code>region def</code> examples parse as intended on 1.16 or newer: each <code>name|*</code> token creates the name under the wildcard and returns the cursor there. [[@fw-cli:L1021-1039; fw-docs-cli:L847]] [[I]] The Phase 4 block is not valid as a paste, and nothing runs on 1.15. See <a href="#f11">Finding 11</a>.</p></div></article>
+
+<article class="lg" data-v="ok"><div class="vd"><span class="id">RT-17, RT-21</span><b>Confirmed</b></div><div>
+<p class="cl">"A wide-only intra-metro peak can strand metro traffic." "Keep every configured tag a direct child of *."</p>
+<p class="ev">[[F]] Both follow from per-name matching; nesting has no effect on forwarding. [[@fw-regionmap:L190-204; pnw-rollout:L105]]</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">RT-22</span><b>Confirmed, caveat</b></div><div>
+<p class="cl">"335, 601 and 504 ... sum to 1,440", not 1,332, so "make no category-share calculation"</p>
+<p class="ev">[[C]] The arithmetic is right, and Q1 has the same overshoot. [[@wc-q2:L37; wc-q1:L44]] [[F]] The shares can be measured directly from the analyzer's per-channel counts. [[@cs-channels]] See <a href="#f3">Finding 3</a>.</p></div></article>
+
+<article class="lg" data-v="wrong"><div class="vd"><span class="id">&sect;06</span><b>Wrong</b></div><div>
+<p class="cl">"Santa Monica Mountains | Conejo / Malibu &harr; LA Basin and SFV"</p>
+<p class="ev">[[F]] The range has the Conejo and San Fernando valleys on its north side and Malibu and the Los Angeles Basin on its south. [[@geo-smm]]</p>
+<p><strong>Use instead:</strong> "Santa Monica Mountains | Conejo Valley and San Fernando Valley (north) &harr; Malibu coast and LA Basin (south) | passes: Sepulveda, Cahuenga".</p></div></article>
+
+<article class="lg" data-v="wrong"><div class="vd"><span class="id">&sect;06</span><b>Wrong</b></div><div>
+<p class="cl">"Santa Susana Mountains / Simi Hills | Simi &harr; SFV and Conejo"</p>
+<p class="ev">[[F]] Two ranges. The Simi Hills sit between the Simi, San Fernando and Conejo valleys; the Santa Susana Mountains sit between those valleys and the Santa Clarita and Santa Clara River valleys. [[@geo-simi; geo-susana]]</p>
+<p><strong>Use instead:</strong> two rows, as in the <a href="#fix-terrain">corrected table</a>.</p></div></article>
+
+<article class="lg" data-v="wrong"><div class="vd"><span class="id">&sect;06</span><b>Partly wrong</b></div><div>
+<p class="cl">"San Gabriel Mountains | LA / SGV / SFV &harr; Santa Clarita and Antelope valleys"</p>
+<p class="ev">[[F]] The San Fernando Valley reaches Santa Clarita through Newhall Pass across the Santa Susana Mountains. [[@geo-scv; geo-susana]]</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">&sect;06</span><b>Oversimplified</b></div><div>
+<p class="cl">"Santa Ana Mountains | Orange County &harr; Inland Empire | Hard SNA / ONT metro edge"</p>
+<p class="ev">[[F]] Santa Ana Canyon is a water gap through that edge. [[@geo-sac]]</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">&sect;06</span><b>Mislabeled</b></div><div>
+<p class="cl">"Palomar / Laguna Mountains | San Diego coast &harr; East County / desert"</p>
+<p class="ev">[[F]] East County in common use is El Cajon, La Mesa, Lemon Grove and Santee, on the coastal side of the mountains. [[@geo-east]]</p></div></article>
+
+<article class="lg" data-v="ok"><div class="vd"><span class="id">&sect;06</span><b>Confirmed</b></div><div>
+<p class="cl">Rows for the Santa Ynez Mountains, the Conejo Grade, and the San Bernardino and San Jacinto mountains with the Cajon and San Gorgonio passes</p>
+<p class="ev">[[F]] Consistent with the sources checked. [[@geo-ynez; geo-grade; geo-cajon; geo-gorgonio]]</p></div></article>
+
+<article class="lg" data-v="unv"><div class="vd"><span class="id">&sect;06</span><b>Uncited</b></div><div>
+<p class="cl">"Ridges usually attenuate 915 MHz LoRa, so valleys are useful starting cells."</p>
+<p class="ev">[[U]] The plan gives no source and I did not look for one. [[O]] It is a reasonable starting assumption, and the plan is right that measurements override it.</p></div></article>
+
+<article class="lg" data-v="ok"><div class="vd"><span class="id">&sect;07</span><b>Confirmed</b></div><div>
+<p class="cl">SkyNet: "First seen 8 Oct 2026; key prefix 88EA ... the Scope field was blank"; "0.0% bridge score"</p>
+<p class="ev">[[F]] First seen 2026-10-08T21:35:11Z, two-byte hash, scope state "none", bridge score 0. [[@cs-skynet]]</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">&sect;07</span><b>Confirmed, caveat</b></div><div>
+<p class="cl">"454 relays in 24 hours"</p>
+<p class="ev">[[F]] The analyzer's count (452 when fetched). [[@cs-skynet]] [[I]] It undercounts the node's own tally by more than tenfold. See <a href="#f5">Finding 5</a>.</p></div></article>
+
+<article class="lg" data-v="old"><div class="vd"><span class="id">&sect;07</span><b>Unstable</b></div><div>
+<p class="cl">"18 hops average relayed packet path"</p>
+<p class="ev">[[F]] 9.28 hops over 61 packets a day later, with 4,043 packets excluded as ambiguous. [[@cs-skynet]]</p>
+<p><strong>Use instead:</strong> drop the figure, or quote the network median of 9 hops. [[@cs-topo]]</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">&sect;07</span><b>Confirmed, caveat</b></div><div>
+<p class="cl">"7 repeaters within ~8 miles" and the eight listed neighbors</p>
+<p class="ev">[[C]] The seven near distances match the analyzer after converting from kilometres (0.96 km to 12.86 km, which is 0.6 to 8.0 miles). [[@cs-skynet]] [[I]] The eighth, Hyperion Fatline at 60.8 miles, matches the analyzer's number but is almost certainly a mis-resolved one-byte prefix.</p></div></article>
+
+<article class="lg" data-v="unv"><div class="vd"><span class="id">&sect;07</span><b>Not re-checked</b></div><div>
+<p class="cl">"37 observers saw it via relay"; the "SkyyNet" typo in an early advert</p>
+<p class="ev">[[U]] I did not re-check either. [[F]] One advert of 11 October was recorded 64 times. [[@cs-advert]]</p></div></article>
+
+<article class="lg" data-v="cav"><div class="vd"><span class="id">&sect;07, RT-5</span><b>Supported</b></div><div>
+<p class="cl">"Measured neighbors, not a county boundary, place this young Thousand Oaks repeater in the OXR metro."</p>
+<p class="ev">[[F]] One hop to an OXR-tagged observer, four to the nearest LAX-tagged one. [[@cs-advert]] [[I]] Observer placement influences both counts.</p></div></article>
+
+</div>
+</section>

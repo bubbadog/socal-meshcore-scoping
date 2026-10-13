@@ -1,0 +1,95 @@
+<section id="appendix">
+<h2>Appendices</h2>
+
+<h3 id="app-a">Appendix A. Analyzer values as captured</h3>
+<p>[[F]] All from <code>corescope.wcmesh.com/api/</code>, fetched 13 October 2026 between 07:30 and 07:50 UTC, software v3.12.0. The analyzer retains about seven days of packets, so these figures will not reproduce later. JSON was read through a fetch tool that summarizes long responses; I asked for exact fields and cross-checked totals between endpoints (for example, 13,485 unscoped plus 64 scoped equals the 13,549 transmissions the airtime endpoint reports).</p>
+<div class="tw"><table>
+<thead><tr><th>Endpoint</th><th>Values captured</th></tr></thead>
+<tbody>
+<tr><td><code>stats</code> [[@cs-stats]]</td><td>Nodes 1,037; repeaters 806; companions 183; room servers 48; observers 58.</td></tr>
+<tr><td><code>config/regions</code> [[@cs-regions]]</td><td>LAX "Los Angeles, CA"; LGB "Long Beach, CA"; SNA "Santa Ana, CA"; ONT "Ontario, CA"; SAN "San Diego, CA"; OXR "Oxnard, CA"; SBA "Santa Barbara, CA"; PSP "Palm Springs, CA"; BFL, FAT and MCE with no display name.</td></tr>
+<tr><td><code>scope-stats</code> [[@cs-scope]]</td><td>24 hours: transport total 65, scoped 64, unscoped 13,485, unknown scope 64, per-region list empty. Seven days: transport total 501, scoped 406, unscoped 85,894, unknown scope 406, per-region list empty.</td></tr>
+<tr><td><code>scope-audit?window=7d</code> [[@cs-audit]]</td><td>30 repeater rows. 27 declare the wildcard only. 0 declare a named region. 3 show the state "no-flood"; their names are withheld in this public copy.</td></tr>
+<tr><td><code>analytics/rf</code> [[@cs-rf]]</td><td>168.0 hours; 86,293 transmissions; average packet 56 bytes. GRP_TXT 19,919; CONTROL 15,054; REQ 14,925; RESPONSE 12,741; ADVERT 9,974; TXT_MSG 6,102; ANON_REQ 2,867; PATH 2,264; TRACE 1,341; ACK 656; GRP_DATA 168.</td></tr>
+<tr><td><code>analytics/relay-airtime-share?window=24h</code> [[@cs-airtime]]</td><td>13,549 transmissions. Airtime share: GRP_TXT 44.5%; ADVERT 18.0%; REQ 13.6%; TXT_MSG 9.65%; ANON_REQ 5.8%; PATH 3.9%; RESPONSE 3.0%; ACK 1.1%; TRACE 0.04%; CONTROL 0.009%.</td></tr>
+<tr><td><code>analytics/retransmissions?window=7d</code> [[@cs-retx]]</td><td>46,134 flood events; 87.2 distinct relays per flood on average; 48 observers contributing. Daily flood events, 7 to 12 Oct: 7,435; 6,465; 6,294; 6,646; 5,761; 6,866.</td></tr>
+<tr><td><code>analytics/topology</code> [[@cs-topo]]</td><td>Mean 11.10 hops; median 9; hop counts 1 to 25 as charted in Finding 14.</td></tr>
+<tr><td><code>analytics/hash-sizes</code> [[@cs-hash]]</td><td>Paths counted: one-byte 61.6%, two-byte 27.5%, three-byte 10.9% of 53,661. Per-repeater tally under keys 0 to 3: 5, 263, 445, 70; I read the keys as hash size in bytes, with 0 as unknown.</td></tr>
+<tr><td><code>channels</code> [[@cs-channels]]</td><td>47 channels, 19,487 messages. #test 5,946; #wardriving 4,670; Public 4,324; #volcano 706; #testing 597; #meshbud 536; #foobot 516; #weather 366; #hardware 311; #sandiego 277; #bot 190; #hamradio 189; #chat 154; #foo 123; #3dprinting 82; #420 69; #orangecounty 67; #venturacounty 57; #meshai 48; #sbcountymesh 33; #socalalert 29; #socal-incidents 23; #inlandempire 19; #ramona 19; #cert 18; #wx 16; 21 further channels with 12 or fewer each.</td></tr>
+<tr><td><code>observers</code> [[@cs-observers]]</td><td>58 observers: LAX 25, SAN 18, ONT 4, OXR 3, SBA 3, SNA 2, PSP 2, LGB 1.</td></tr>
+<tr><td><code>nodes/88ea...</code> [[@cs-skynet]]</td><td>SkyNet: first seen 2026-10-08T21:35:11Z; position 34.19, -118.89; two-byte hash; scope state "none"; relay count 452 in 24 hours; bridge score 0; redundancy 0; coverage 0.37; traffic share 0.05; usefulness 0.10. Neighbors by distance: Green R1 0.96 km; NP Valley Spare 3.08; RASN 3.24; NP 700 ASL 3.41; NP-CAM Grade 5.68; COMT 8.50; Highest in the Neighbor 12.86; Hyperion Fatline 97.88 (120 observations inside ten seconds).</td></tr>
+<tr><td><code>packets/1146777</code> [[@cs-advert]]</td><td>SkyNet advert, unscoped flood, 64 observations. Fewest hops to an observer by tag: OXR 1 (through 8943), SBA 3, LAX 4, SAN 6, SNA 7, ONT 8, LGB 8. Longest path 11 hops.</td></tr>
+</tbody></table></div>
+
+<h3 id="app-b">Appendix B. Decoding the scopes already on air</h3>
+<p>[[F]] The firmware derives a region's key as the first 16 bytes of SHA-256 over <code>#</code> plus the name, and a packet's code as the first two bytes of HMAC-SHA256 under that key over one byte of payload type followed by the payload, with the values 0x0000 and 0xFFFF moved to their neighbors. [[@fw-regionmap:L175-183; fw-tks:L4-18, L44-47]] [[F]] The analyzer exposes raw packet bytes for transport-route packets. [[@cs-packets]] I recomputed the code for each of 4,461 candidate names (every name and alias in the generator and PNW data files, the SoCal and PNW airport codes, and likely words such as county, city and channel names) and kept names that matched.</p>
+<div class="tw"><table>
+<thead><tr><th>Sender (node name on air)</th><th>Packet</th><th>First seen, UTC</th><th>Code bytes</th><th>Hops recorded</th><th>Name matched</th></tr></thead>
+<tbody>
+<tr><td>Rancho North, repeater</td><td>Flood advert</td><td>13 Oct 03:50</td><td><code>EF36</code></td><td class="num">1</td><td><code>psp</code></td></tr>
+<tr><td>Rancho North</td><td>Flood advert</td><td>12 Oct 15:50</td><td><code>424C</code></td><td class="num">1</td><td><code>psp</code> (and one chance match)</td></tr>
+<tr><td>Rancho North</td><td>Flood advert</td><td>11 Oct 15:50</td><td><code>2419</code></td><td class="num">1</td><td><code>psp</code></td></tr>
+<tr><td>User A, name withheld</td><td>Public message</td><td>12 Oct 06:36</td><td><code>0BBA</code></td><td class="num">0</td><td><code>san</code></td></tr>
+<tr><td>User A, name withheld</td><td>Public message</td><td>12 Oct 06:35</td><td><code>1832</code></td><td class="num">0</td><td><code>san</code></td></tr>
+<tr><td>User A, name withheld</td><td>Public message</td><td>12 Oct 05:51</td><td><code>2E9B</code></td><td class="num">0</td><td><code>san</code></td></tr>
+<tr><td>A weather bot</td><td>#weather post</td><td>12 Oct 13:50</td><td><code>2887</code></td><td class="num">0 to 1</td><td><code>california</code></td></tr>
+<tr><td>A weather bot</td><td>#weather post</td><td>12 Oct 13:50</td><td><code>1531</code></td><td class="num">0 to 1</td><td><code>california</code></td></tr>
+<tr><td>A weather bot</td><td>#weather post</td><td>11 Oct 13:49</td><td><code>8D1E</code></td><td class="num">0 to 1</td><td><code>california</code></td></tr>
+<tr><td>A weather bot</td><td>#weather post</td><td>earlier that week</td><td><code>784D</code></td><td class="num">0 to 1</td><td><code>california</code></td></tr>
+<tr><td>User B, name withheld</td><td>#test message</td><td>13 Oct 05:02</td><td><code>42D7</code></td><td class="num">3</td><td><code>us</code></td></tr>
+<tr><td>User B, name withheld</td><td>Public message</td><td>13 Oct 04:55</td><td><code>D0EA</code></td><td class="num">3</td><td><code>california</code></td></tr>
+<tr><td>User C, name withheld</td><td>#test message</td><td>12 Oct 03:23</td><td><code>B6F6</code></td><td class="num">0</td><td>no match</td></tr>
+</tbody></table></div>
+<ul>
+<li>[[C]] <strong>How far to trust a match.</strong> A code is 16 bits, so a single packet has about a 6.8 percent chance of matching some name in a 4,461-name list by accident (4,461 divided by 65,536). Across 13 packets that predicts about 0.9 accidental matches, and exactly one appeared (<code>rio-vista</code> on one advert). The chance that any one name matches three independent packets from the same sender by accident is below one in a billion, so <code>psp</code>, <code>san</code> and <code>california</code> for the bot are solid. [[I]] <code>us</code> and <code>california</code> on the two single packets from User B each rest on one match; they are credible because both are names from the generator's root chain, and I would still call them probable.</li>
+<li>[[F]] The analyzer listed about 30 more #weather posts from the same bot in the week, all with a zero second code. [[@cs-packets]] [[I]] I expect them to decode the same way and did not test them.</li>
+<li>[[I]] <strong>Limits.</strong> A name outside my candidate list is invisible to this method, which is why one packet has no match. I can only see packets an observer recorded. The hop counts show how far each packet was carried to an observer and say nothing about who else heard it. [[I]] A relay does not prove the relaying repeater holds the name, because firmware older than 1.10 forwards scoped floods unchecked. [[@blog-region]]</li>
+<li>[[F]] The search script is 113 lines of Python using only the standard library. A short version is in the repository as <code>tools/decode_scope.py</code>.</li>
+</ul>
+<p><strong>Check it yourself.</strong> [[F]] The function below is a second, independent implementation. For each of the 12 matched packets it returns the same four hex digits that the packet carries in bytes 2 and 3. [[@own-decode]] [[F]] The analyzer stores these same packets with an empty scope name, which is its marker for a scoped packet whose name it could not resolve. [[@cs-src-db:L3270-3278]]</p>
+<div class="cb"><div class="cap"><span>Python 3, standard library only</span><button type="button" data-copy>Copy</button></div><pre>import hashlib, hmac
+
+def code(name, raw_hex):
+    b = bytes.fromhex(raw_hex)
+    ptype = (b[0] &gt;&gt; 2) &amp; 0x0F               # payload type from the header byte
+    n = b[5]                                 # path length byte, after two 16-bit codes
+    path = ((n &gt;&gt; 6) + 1) * (n &amp; 0x3F)       # hash size times hop count
+    payload = b[6 + path:]
+    key = hashlib.sha256(('#' + name).encode()).digest()[:16]
+    mac = hmac.new(key, bytes([ptype]) + payload, hashlib.sha256).digest()
+    return mac[:2].hex().upper()
+
+# code('psp', '10EF3600...') returns 'EF36', the packet's own bytes 2 and 3</pre></div>
+[[packets]]
+<p class="small">Only the repeater's adverts are reproduced in this public copy. Packets carrying individual users' messages are left out.</p>
+
+<h3 id="app-c">Appendix C. Airtime arithmetic</h3>
+<p>[[F]] The firmware estimates airtime by calling RadioLib's time-on-air routine, and from 1.16 uses a 32-symbol preamble at spreading factor 8 and below. [[@fw-radio:L56-57; blog-116; own-toa]] [[C]] At 62.5 kHz and SF7 a symbol lasts 2.048 ms (128 divided by 62,500). The packet takes 32 + 8 + 4.25 preamble and sync symbols plus 5 symbols for every 28 bits of the quantity 8 &times; length + 16 &minus; 28 + 8 + 20, rounded up.</p>
+<div class="tw"><table>
+<thead><tr><th>Packet length</th><th>Symbols</th><th>Time on air</th><th>With 4 more bytes for a scope</th></tr></thead>
+<tbody>
+<tr><td class="num">20 bytes</td><td class="num">79.25</td><td class="num">162 ms</td><td class="num">173 ms</td></tr>
+<tr><td class="num">56 bytes, the observed average</td><td class="num">129.25</td><td class="num">265 ms</td><td class="num">275 ms</td></tr>
+<tr><td class="num">100 bytes</td><td class="num">194.25</td><td class="num">398 ms</td><td class="num">408 ms</td></tr>
+<tr><td class="num">130 bytes, a typical advert</td><td class="num">234.25</td><td class="num">480 ms</td><td class="num">490 ms</td></tr>
+</tbody></table></div>
+<p><strong>SkyNet occupancy, 10 October, 46-minute window (2,760 seconds).</strong> [[F]] Inputs: 99 seconds transmitting; 316 floods sent; 1,603 floods received; lifetime airtime 58 minutes transmit and 286 minutes receive. [[@own-telemetry]]</p>
+<ul>
+<li>[[C]] Mean airtime per sent flood: 99 / 316 = 0.313 s, consistent with packets somewhat above the 56-byte average.</li>
+<li>[[E]] Route 1: 1,603 &times; 0.313 = 502 s received, 18.2 percent; plus 99 s sent, 3.6 percent; total 21.8 percent.</li>
+<li>[[E]] Route 2: receive-to-transmit ratio 286 / 58 = 4.93; 99 &times; 4.93 = 488 s, 17.7 percent; plus 3.6 percent; total 21.3 percent.</li>
+<li>[[I]] Both routes omit packets the radio could not decode and direct-routed traffic, so the true figure is higher. Both describe one site in one late-afternoon window.</li>
+<li>[[E]] Scaling by flood rate (423 unique floods per hour in the window against a seven-day mean of 275) puts the all-day average near 14 percent. [[@cs-retx]]</li>
+</ul>
+</section>
+
+<section id="works">
+<h2>Works cited</h2>
+<p class="small">[[#refs]] sources. GitHub items are pinned to a commit so the line references keep pointing at the same text. Web pages and analyzer endpoints were read on 13 October 2026. Line references in the body open the cited lines directly.</p>
+[[works-cited]]
+</section>
+
+<footer class="end">
+<p>Prepared on 13 October 2026 as input to a revised plan. This review has not been seen by the WCMesh maintainers, and nothing in it speaks for them.</p>
+</footer>
+</div>

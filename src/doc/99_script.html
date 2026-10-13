@@ -1,0 +1,144 @@
+<script>
+(function(){
+  var doc=document.getElementById('doc');
+  var q=document.getElementById('search-q'),out=document.getElementById('search-n');
+  var prev=document.getElementById('search-prev'),next=document.getElementById('search-next');
+  var hits=[],cur=-1,timer=null,MAX=400;
+
+  function clearHits(){
+    var parents=[];
+    hits.forEach(function(m){
+      var p=m.parentNode;if(!p)return;
+      p.replaceChild(document.createTextNode(m.textContent),m);
+      if(parents.indexOf(p)<0)parents.push(p);
+    });
+    parents.forEach(function(p){p.normalize();});
+    hits=[];cur=-1;
+  }
+  function textNodes(){
+    var w=document.createTreeWalker(doc,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+      if(!n.nodeValue||!n.nodeValue.trim())return NodeFilter.FILTER_REJECT;
+      var e=n.parentNode;
+      while(e&&e!==doc){
+        var t=e.nodeName.toLowerCase();
+        if(t==='svg'||t==='script'||t==='style'||t==='select'||t==='textarea'||t==='button'||t==='output')return NodeFilter.FILTER_REJECT;
+        e=e.parentNode;
+      }
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    var a=[],n;while((n=w.nextNode()))a.push(n);return a;
+  }
+  function show(i,scroll){
+    if(!hits.length)return;
+    if(cur>=0&&hits[cur])hits[cur].classList.remove('cur');
+    cur=(i+hits.length)%hits.length;
+    var m=hits[cur];m.classList.add('cur');
+    var d=m.parentNode;
+    while(d&&d!==doc){if(d.nodeName==='DETAILS'&&!d.open)d.open=true;d=d.parentNode;}
+    if(scroll){
+      var r=m.getBoundingClientRect();
+      var y=r.top+(window.pageYOffset||document.documentElement.scrollTop)-window.innerHeight*0.35;
+      window.scrollTo({top:Math.max(0,y),behavior:'instant'});
+    }
+    out.textContent=(cur+1)+' of '+hits.length+(hits.length>=MAX?'+':'')+' matches';
+  }
+  function run(){
+    clearHits();
+    var term=q.value.trim();
+    prev.hidden=next.hidden=true;
+    if(term.length<2){out.textContent=term.length?'Type one more letter':'Type two or more letters';return;}
+    var low=term.toLowerCase(),nodes=textNodes();
+    for(var i=0;i<nodes.length&&hits.length<MAX;i++){
+      var node=nodes[i],text=node.nodeValue,lt=text.toLowerCase(),pos=lt.indexOf(low);
+      if(pos<0)continue;
+      var frag=document.createDocumentFragment(),last=0;
+      while(pos>=0&&hits.length<MAX){
+        if(pos>last)frag.appendChild(document.createTextNode(text.slice(last,pos)));
+        var m=document.createElement('mark');m.className='hit';m.textContent=text.slice(pos,pos+term.length);
+        frag.appendChild(m);hits.push(m);
+        last=pos+term.length;pos=lt.indexOf(low,last);
+      }
+      if(last<text.length)frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag,node);
+    }
+    if(!hits.length){out.textContent='No matches';return;}
+    prev.hidden=next.hidden=hits.length<2;
+    show(0,document.activeElement===q&&q.dataset.typed==='1');
+  }
+  if(doc&&q){
+    q.addEventListener('input',function(){q.dataset.typed='1';clearTimeout(timer);timer=setTimeout(run,180);});
+    q.addEventListener('keydown',function(e){
+      if(e.key==='Enter'){e.preventDefault();if(hits.length)show(cur+(e.shiftKey?-1:1),true);else run();}
+      else if(e.key==='Escape'){q.value='';run();}
+    });
+    q.addEventListener('search',function(){if(!q.value)run();});
+    prev.addEventListener('click',function(){show(cur-1,true);});
+    next.addEventListener('click',function(){show(cur+1,true);});
+    document.addEventListener('keydown',function(e){
+      if(e.key!=='/'||e.ctrlKey||e.metaKey||e.altKey)return;
+      var t=(e.target&&e.target.nodeName||'').toLowerCase();
+      if(t==='input'||t==='textarea'||t==='select')return;
+      e.preventDefault();q.focus();q.select();
+    });
+  }
+
+  /* contents list: collapsed on narrow screens, where the rail sticks to the top */
+  var toc=document.querySelector('.rail details');
+  var narrow=window.matchMedia?window.matchMedia('(max-width:62rem)'):null;
+  if(toc&&narrow){
+    if(narrow.matches)toc.open=false;
+    toc.querySelectorAll('nav a').forEach(function(a){a.addEventListener('click',function(){if(narrow.matches)toc.open=false;});});
+  }
+
+  /* feedback: builds a prefilled GitHub issue; nothing is sent from this page */
+  var REPO='https://github.com/bubbadog/socal-meshcore-scoping/issues/new';
+  var fs=document.getElementById('fb-section'),fk=document.getElementById('fb-kind'),fw=document.getElementById('fb-who');
+  var ft=document.getElementById('fb-text'),fi=document.getElementById('fb-issue'),fc=document.getElementById('fb-copy'),fo=document.getElementById('fb-out');
+  function kind(){return fk.value.split(':')[0];}
+  function body(limit){
+    var t=ft.value.trim();
+    if(limit&&t.length>limit)t=t.slice(0,limit)+'\n\n(Cut short by the form. Please paste the rest.)';
+    return 'Section: '+fs.value+'\nKind: '+fk.value+'\nFrom: '+(fw.value.trim()||'not given')+'\nDocument: Draft v6, 13 October 2026\n\n'+t+'\n';
+  }
+  function title(){
+    var t=ft.value.trim().replace(/\s+/g,' ');
+    if(t.length>60)t=t.slice(0,57)+'...';
+    return '['+kind()+'] '+fs.value+(t?': '+t:'');
+  }
+  function sync(){if(fi)fi.href=REPO+'?title='+encodeURIComponent(title())+'&body='+encodeURIComponent(body(5000));}
+  function say(s){if(fo)fo.textContent=s;}
+  if(ft&&fi){
+    [fs,fk,fw,ft].forEach(function(el){el.addEventListener('input',function(){sync();say('');});el.addEventListener('change',sync);});
+    try{var saved=sessionStorage.getItem('v6-feedback-draft');if(saved&&!ft.value)ft.value=saved;}catch(e){}
+    ft.addEventListener('input',function(){try{sessionStorage.setItem('v6-feedback-draft',ft.value);}catch(e){}});
+    sync();
+    fi.addEventListener('click',function(e){
+      if(!ft.value.trim()){e.preventDefault();say('Write your feedback first.');ft.focus();return;}
+      sync();say('GitHub opens in a new tab. Press its green button to post.');
+    });
+    document.getElementById('fb-form').addEventListener('submit',function(e){e.preventDefault();});
+    fc.addEventListener('click',function(){
+      if(!ft.value.trim()){say('Write your feedback first.');ft.focus();return;}
+      var text=body(0);
+      function fallback(){
+        var keep=ft.value;ft.value=text;ft.focus();ft.select();
+        var ok=false;try{ok=document.execCommand('copy');}catch(e){}
+        if(ok){ft.value=keep;say('Copied. Paste it wherever this was shared.');}
+        else{say('Copy did not work here. The full text is selected in the box; copy it by hand.');}
+      }
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){say('Copied. Paste it wherever this was shared.');},fallback);}
+      else{fallback();}
+    });
+  }
+
+  document.querySelectorAll('button[data-copy]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var pre=b.closest('.cb').querySelector('pre');
+      var text=pre.textContent;
+      function done(ok){b.textContent=ok?'Copied':'Select and copy';setTimeout(function(){b.textContent='Copy';},1800);}
+      function select(){var r=document.createRange();r.selectNodeContents(pre);var s=window.getSelection();s.removeAllRanges();s.addRange(r);done(false);}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){done(true);},select);}else{select();}
+    });
+  });
+})();
+</script>

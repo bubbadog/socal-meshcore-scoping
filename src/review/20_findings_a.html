@@ -1,0 +1,126 @@
+<section id="findings">
+<h2>Findings, ranked</h2>
+<p class="small">Ranked by the damage each would do if the plan went out unchanged. Critical means it would split the mesh or mislead the decision; high means it would break something for real users or void the pilot; medium means it is wrong and should be fixed before publication.</p>
+
+<section class="fd" id="f1">
+<header><span class="n">1</span><h3>The plan forks a namespace that is already forked, and misdescribes the competing scheme</h3><span class="sev crit">Critical</span></header>
+<p>[[P]] The metro tier is airport codes (<code>lax</code>, <code>lgb</code>, <code>sna</code>, <code>ont</code>, <code>san</code>, <code>oxr</code>, <code>sba</code>, <code>psp</code>), sub-regions are <code>&lt;metro&gt;-&lt;place&gt;</code>, and the wide tag is <code>socal</code>. [[@plan:§03, §05]] [[P]] The matkam California scheme appears in the reference list as "Alternative considered", and the plan says choosing <code>socal</code> "aligns with the alternative matkam California scheme's existing tag concept". [[@plan:§05, §10, RT-12]]</p>
+<h4>What the sources show</h4>
+<ul>
+<li>[[F]] The generator's data file declares no tags (<code>tags: []</code>). Its comment says SoCal communities live as areas under each county. [[@mk-data:L127-130]]</li>
+<li>[[F]] In that file <code>socal</code> is a level under the root chain <code>us</code>, <code>west</code>, <code>california</code>. Beneath it are eight counties (<code>santabarbara</code>, <code>ventura</code>, <code>losangeles</code>, <code>orangecounty</code>, <code>sanbernardino</code>, <code>riverside</code>, <code>imperial</code>, <code>sandiego</code>) and 52 local areas. Thousand Oaks is an alias of <code>conejovalley</code> under <code>ventura</code>. [[@mk-data:L112-118, L945, L992-1021]]</li>
+<li>[[F]] The SoCal section was rewritten by the GitHub account <code>chrisdavis2110</code> in two commits, on 3 and 24 August 2026. [[@mk-c1; mk-c2]] [[F]] That account owns the WCMesh documentation repository, which publishes the State of the Mesh reports. [[@wc-q2]]</li>
+<li>[[F]] The generator's README still describes <code>socal</code> as a tag and says Ventura County is split at the Conejo grade because its east half talks to Los Angeles. [[@mk-readme:L297-298, L328-345]] [[I]] The plan's alignment claim was written from that README. The data that drives the generator stopped matching it on 3 August.</li>
+<li>[[F]] WCMesh's own docs carried a third scheme for about 22 hours: <code>us</code>, <code>ca</code>, <code>socal</code>, then <code>la</code>, <code>oc</code>, <code>sd</code>, <code>ie</code>, <code>sb</code>, <code>vta</code>. It was added late on 3 March 2026 and removed on the evening of 4 March with the two-word message "removed regions"; the removal deleted the whole guide, 25 files. [[@wc-regions-old:L7-28; wc-regions-rm; wc-log]] [[F]] The guide's explainer page used <code>lax</code>, <code>oc</code> and <code>socal</code> as its example names. [[@wc-regions-index:L16-22]]</li>
+<li>[[F]] Nothing about regions has entered the WCMesh docs since the Q2 report: the five commits after 26 July add that report, a settings table and MQTT notes. [[@wc-log]] [[I]] So the August commits to the generator are the only public statement of SoCal region names by that maintainer since the March guide was withdrawn. A search limited to the WCMesh docs repository will miss them, and the second assistant's memo did. [[@memo]]</li>
+<li>[[F]] MeshMapper's SoCal map lists five zone codes under "Wardriving Scope": LAX, OXR, PSP, SAN and SBA. [[@mm-socal]]</li>
+<li>[[F]] Scoped traffic already exists on the SoCal air under both families of names. Of 13 scoped packets I decoded from 11 to 13 October: all three flood adverts from the repeater Rancho North, which sits in the Coachella Valley at 33.80, -116.40, carry <code>psp</code>; three Public messages from one user carry <code>san</code>; four #weather posts from a bot carry <code>california</code>; two messages from another user carry <code>us</code> and <code>california</code>. One packet matched no name I tried. [[@own-decode; cs-packets; cs-rancho]]</li>
+<li>[[F]] The analyzer cannot show any of this. It reports every scoped packet as an unknown scope and an empty per-region list, which is what its source says happens when no region names are configured for matching. [[@cs-scope; cs-src-cfg:L400-404]]</li>
+</ul>
+<h4>Why it matters</h4>
+<p>[[F]] A repeater forwards a scoped flood only if the packet's code matches one of the names in its own table; the loop compares each name's code in turn and never consults a parent. [[@fw-regionmap:L190-204]] [[I]] So a repeater set up from the generator and a companion set up from this plan share one working scope, <code>socal</code>. Every metro or local scope from either vocabulary is dropped by repeaters that hold the other.</p>
+<p>[[I]] Names get adopted through tool defaults. Three parties control those defaults here: whoever maintains the WCMesh wiki and analyzer, the MeshMapper administrator for SoCal, and the generator's maintainer. A plan that is not wired into those three becomes the fifth vocabulary.</p>
+<p>[[O]] Airport codes are a defensible choice. They match five of MeshMapper's zones, the PNW and Canadian conventions, and two of the scopes already on air. [[@ca-onqc:L241-248; pnw-rollout:L66]] The county and area tree is also defensible: it has 52 named SoCal areas with aliases and a working generator. The failure is presenting one as the proposal and the other as a footnote, without the other's author in the room.</p>
+<div class="fix">
+<h4>Correction</h4>
+<p>[[R]] Replace the "Ratify the airport-code metro tier?" decision with a convergence step that happens before any repeater is touched: one thread with the WCMesh docs and analyzer maintainer, the MeshMapper SoCal administrator and matkam, one written vocabulary as its output, and the same names loaded into the generator, MeshMapper's Wardriving Scope and the analyzer's <code>hashRegions</code> list on the same day. The <a href="#fix-names">crosswalk table</a> below is the working paper for that thread.</p>
+<p>[[R]] Replace the sentence about matkam in &sect;05 with: "A second SoCal vocabulary already exists in the matkam generator: <code>socal</code> as a level under <code>us</code>, <code>west</code>, <code>california</code>, with eight county names and 52 local-area names, committed in August 2026 by the WCMesh docs maintainer. It shares only the name <code>socal</code> with this plan. The two must be reconciled before rollout."</p>
+</div>
+<p class="need"><strong>Needs Discord.</strong> Whether WCMesh has already chosen between these, why the March guide was pulled, and who runs Rancho North and the bot posting under <code>california</code>.</p>
+</section>
+
+<section class="fd" id="f2">
+<header><span class="n">2</span><h3>"Healthy" and "modest load" contradict the plan's own source and the live data</h3><span class="sev crit">Critical</span></header>
+<p>[[P]] The opening reads "The network is healthy" and "Scoping is not a rescue operation", and the rollout can proceed "while load is still modest". [[@plan:§01]] [[P]] The same section quotes "20 to 25%" as the community's Q2 estimate of the overwhelm threshold and "1,332/day" as the channel-message total. [[@plan:§01]]</p>
+<h4>What the sources show</h4>
+<ul>
+<li>[[F]] The sentence the 20 to 25 percent figure comes from is: "We are starting to hit that 20%-25% threshold before the mesh starts getting overwhelmed." The author continues, "I would like to keep the mesh healthy and not have it crumble." [[@wc-q2:L39]]</li>
+<li>[[F]] The quantity is airtime utilization. The Q1 report says "Around 20% airtime utilization is the limit of when packets start to break down" and that the mesh was "mostly hovering around 10%". [[@wc-q1:L22]]</li>
+<li>[[F]] 1,332 per day is the April to June average. [[@wc-q2:L37]] [[F]] The analyzer recorded 19,919 channel-message transmissions in the 168 hours to 13 October. [[@cs-rf]] [[C]] That is 2,846 per day, 2.1 times the Q2 average. [[U]] I could not confirm the two counts use the same method, so read the ratio as "roughly double", not as a measured growth rate.</li>
+<li>[[F]] SkyNet's own counters for a 46-minute window on 10 October (about 4:30 to 5:16 pm PDT): 1,603 flood packets received, 1,279 of them duplicates; 316 floods sent; about 99 seconds of transmit time; 249 receive errors on about 1,890 decode attempts. Its lifetime totals at the start of that window were 58 minutes of transmit airtime and 4 hours 46 minutes of receive airtime. [[@own-telemetry]]</li>
+<li>[[E]] Channel occupancy at SkyNet in that window was about 22 percent. Two independent routes agree: 1,603 received floods at the measured 0.313 seconds per packet is 502 seconds (18.2 percent) plus 3.6 percent transmit; or the lifetime receive-to-transmit airtime ratio of 4.93 applied to the 99 seconds of transmit gives 17.7 percent plus 3.6 percent. Assumptions: received packets average the same airtime as sent ones, and packets that failed to decode are not counted, which makes this a floor. Working in <a href="#app-c">Appendix C</a>.</li>
+<li>[[E]] That window is a late-afternoon peak. SkyNet saw about 423 unique floods per hour in it, against a seven-day network mean of about 275 per hour, so the all-day average at this site is probably nearer 14 percent. [[@cs-retx]]</li>
+<li>[[C]] 80 percent of the floods SkyNet received in that window were duplicates, and 13.2 percent of decode attempts failed. [[@own-telemetry]]</li>
+</ul>
+<h4>Why it matters</h4>
+<p>[[I]] The evidence supports "approaching the threshold the maintainer named, at peak hours, at one site in the Conejo Valley". It does not support "healthy" or "modest". The framing sets the sequencing: a plan that believes there is no pressure defers the cheap volume levers (bots, wardriving, advert and hop limits) to Phase 3 and leads with a naming exercise.</p>
+<p>[[F]] One correction of my own. On 10 October I told you SkyNet was "healthy and lightly loaded". [[@own-telemetry]] [[I]] I based that on its 3.6 percent transmit duty cycle alone. Transmit time measures what one repeater adds; it says little about how full the channel is. The same counters, read for receive airtime, give the 22 percent above.</p>
+<div class="fix">
+<h4>Correction</h4>
+<p>[[R]] Replace the &sect;01 headline and first tile row with the <a href="#fix-baseline">corrected baseline</a> below, and replace the two sentences with: "The Q2 2026 State of the Mesh says SoCal is starting to hit the 20 to 25 percent airtime range where the mesh gets overwhelmed. Channel traffic in the week to 13 October ran at about twice the Q2 average. The first job is to cut flood volume with settings that need no fleet-wide agreement. Scoping comes after that."</p>
+<p>[[R]] Measure occupancy directly instead of estimating it. [[F]] The firmware keeps both counters, the repeater's status screen in the app shows them (your 10 October screenshots did), and the serial command <code>stats-radio</code> returns them as <code>tx_air_secs</code> and <code>rx_air_secs</code>. [[@own-telemetry; fw-stats:L28; fw-docs-cli:L148-150]] [[R]] Read them twice, 24 hours apart, and divide the change in their sum by 86,400. [[F]] The receive counter adds the estimated airtime of every packet the radio parses, duplicates included. [[@fw-dispatcher:L204-209]]</p>
+</div>
+<p class="need"><strong>Needs Discord.</strong> Any airtime measurements or a Q3 report posted after July.</p>
+</section>
+
+<section class="fd" id="f3">
+<header><span class="n">3</span><h3>The design effort is inverted relative to where the traffic is</h3><span class="sev crit">Critical</span></header>
+<p>[[P]] The plan defines 24 candidate sub-regions across eight metros and a terrain section to justify them. [[@plan:§06]] [[P]] Its channel table has rows for region-wide, emergency, metro, neighborhood and "Test / bot" channels, and no row for <code>#wardriving</code>. [[@plan:§05]] [[P]] Bots are addressed in Phase 3 of five: "Curtail bots through acknowledgement-only behavior and metro-scoped bot channels." [[@plan:§04]] [[P]] RT-22 removed the bot-share figure because the Q2 report's categories do not sum to its total. [[@plan:RT-22]]</p>
+<figure class="fig">
+<h4>Share of channel messages by kind of channel, week to 13 Oct 2026</h4>
+[[chart:channels]]
+<figcaption>[[F]] 19,487 messages across 47 decodable channels in the analyzer's retained window. [[@cs-channels]] [[C]] Grouping and percentages are mine. [[F]] WCMesh documents #test as "For sending test and ack messages", #meshbud as a robot and #volcano as a "San Diego based mesh bot". [[@wc-channels:L9-24]] [[I]] The other six channels in the first bar are classed as test or bot traffic from their names; without them the bar is 36.9 percent.</figcaption>
+</figure>
+<figure class="fig">
+<h4>Share of relay airtime by packet type, 24 hours to 13 Oct 2026</h4>
+[[chart:airtime]]
+<figcaption>[[F]] The analyzer's relay-airtime measure: time on air multiplied by the number of distinct relays, summed by payload type, over 13,549 transmissions. [[@cs-airtime]]</figcaption>
+</figure>
+<h4>What follows from the two charts</h4>
+<ul>
+<li>[[C]] Test, bot and wardriving channels are 68.4 percent of channel messages (13,338 of 19,487). Local channels, the traffic sub-regions exist to contain, are 2.6 percent. [[@cs-channels]]</li>
+<li>[[E]] Channel messages are 44.5 percent of relay airtime, so automated and test traffic is about 30 percent of all relay airtime and local-channel traffic about 1.2 percent, if airtime per message is similar across channels. Confining the automated traffic to a metro that holds 30 percent of the repeaters would save roughly a fifth of all relay airtime. Perfect sub-region scoping of every local channel could not save more than 1.2 percent.</li>
+<li>[[F]] Wardriving has a single control point. MeshMapper's admin setting "Wardriving Scope" is "The scope the app puts on every Active and Hybrid ping", with the warning "Repeaters not set up for it drop those pings." [[@mm-admin]] [[F]] The app sends each ping as a channel message to #wardriving, and "If your regional admin has configured a scope, the message stays within that region instead." [[@mm-start]] [[F]] Each of SoCal's five zones showed the value <code>#*</code> when I looked. [[@mm-socal]] [[I]] I read that as the wildcard, meaning no scope is set yet. [[U]] The second assistant's memo reports the MeshMapper leaderboard showing "Wardriving Scope: not set" for all five; my own fetch of that page did not reach those columns. [[@memo; mm-board]]</li>
+<li>[[F]] Adverts are 18 percent of relay airtime. [[@cs-airtime]] [[F]] The firmware already caps advert floods at 8 hops by default from 1.16, and the Q2 report suggests stretching flood adverts toward 72 to 96 hours. [[@fw-rep:L907; wc-q2:L35, L55]]</li>
+<li>[[F]] The maintainer's stated view is "I for one think there are too many bots", with a proposal to limit them to acknowledgement-only. [[@wc-q2:L39]]</li>
+<li>[[F]] The bot share the plan deleted in RT-22 can be measured directly: the analyzer publishes a message count per channel. [[@cs-channels]] [[C]] The Q2 categories do overshoot the total (335 + 601 + 504 = 1,440 against 1,332), and so do the Q1 figures (304 + 485 + 416 = 1,205 against 1,162), so RT-22 was right about the report and wrong to stop there. [[@wc-q2:L37; wc-q1:L44]]</li>
+</ul>
+<div class="fix">
+<h4>Correction</h4>
+<p>[[R]] Reorder the plan around volume. Machines first, people later: (1) hop and advert limits and the WCMesh hygiene settings, now; (2) repeater tags; (3) MeshMapper's Wardriving Scope per zone and bot owners' default scope, as each metro's repeaters are ready; (4) human channels; (5) sub-regions only where a local group asks for one. Canada's proposal sequences bots and MeshMapper the same way, at the end of its repeater phase and before companions. [[@ca-onqc:L342-344]] The full sequence with gates is in <a href="#fix-rollout">Corrected rollout</a>, and the channel table with message counts is in <a href="#fix-channels">Corrected channel table</a>.</p>
+<p>[[R]] Cut &sect;06 to a half page. Keep the rule that measured RF decides, keep a corrected barrier table as background, and move the 24 candidate names to an appendix labeled "not proposed for adoption".</p>
+</div>
+<p class="need"><strong>Needs Discord.</strong> Who administers MeshMapper for SoCal, who owns the active bots, and whether ack-only bots were ever agreed.</p>
+</section>
+
+<section class="fd" id="f4">
+<header><span class="n">4</span><h3>Phase 1 is not purely additive: a default scope blacks out the first mover's adverts</h3><span class="sev high">High</span></header>
+<p>[[P]] Phase 1 tells operators to "add tags with region def, set region default, save" and to "Keep * allowed". [[@plan:§04]] [[P]] Role A says a metro repeater's "default is the metro, so its own adverts remain local". [[@plan:§03]] [[P]] The pilot configuration for SkyNet ends with <code>region default oxr</code>. [[@plan:§07]]</p>
+<h4>What the sources show</h4>
+<ul>
+<li>[[F]] A repeater sends its flood adverts with its default scope, both on the timer and on demand. [[@fw-rep:L1031-1038, L1294-1297]]</li>
+<li>[[F]] A receiving repeater sets the packet's region to the first allowed name whose code matches, or to nothing. With nothing, it refuses to forward: the debug text reads "unknown transport code, or wildcard not allowed for FLOOD packet". [[@fw-rep:L434-443, L556-568]]</li>
+<li>[[F]] Keeping <code>*</code> allowed does not help. The wildcard only matches floods that carry no transport code at all. [[@fw-rep:L559-564]]</li>
+<li>[[F]] Observed on the SoCal air: Rancho North's <code>psp</code>-scoped adverts each reached the analyzer over exactly one hop, by way of one repeater (prefix F420). [[@cs-packets; own-decode]] [[F]] SkyNet's unscoped advert of 11 October was observed 64 times, over paths up to 11 hops long. [[@cs-advert]]</li>
+<li>[[F]] The PNW guide the plan follows states the assumption out loud: "Your neighbors carry that tag, so your adverts still reach them". [[@pnw-rollout:L129]] [[F]] The firmware author's own advice for repeater default scope is that it "should typically be a large region". [[@blog-default]]</li>
+</ul>
+<h4>Why it matters</h4>
+<p>[[I]] The first repeater in any neighborhood to run <code>region default oxr</code> will have its flood adverts forwarded by nobody. Direct neighbors still hear it. Everything beyond one hop stops refreshing it, including the analyzer unless an observer is in direct range. For SkyNet that is a testable prediction: its 11 October advert reached the nearest observer through NP-CAM Grade, one hop away, so after the pilot command its flood adverts should stop appearing on CoreScope. [[@cs-advert]]</p>
+<p>[[I]] The harm is moderate. Messaging does not depend on repeater adverts, and the Q2 report says adverts "aren't really necessary on the mesh". [[@wc-q2:L35]] The problem is that the plan promises operators that Phase 1 cannot hurt them, and the first ones to follow it will watch their node go stale on the map.</p>
+<div class="fix">
+<h4>Correction</h4>
+<p>[[R]] Split Phase 1. In 1a, add tags and save; leave the default scope unset. In 1b, set the default only after a contiguity gate for that metro is met. Replace Role A's sentence with: "Once most of its neighbors carry the metro tag, its default becomes the metro, so its own adverts stay local. Until then it has no default and its adverts flood unscoped as before." Remove <code>region default oxr</code> from the pilot block until at least the repeaters between SkyNet and one observer carry <code>oxr</code>.</p>
+</div>
+</section>
+
+<section class="fd" id="f5">
+<header><span class="n">5</span><h3>The pilot's success criteria cannot fail, and a single low-traffic node cannot show the benefit</h3><span class="sev high">High</span></header>
+<p>[[P]] The pilot configures SkyNet alone and lists four criteria: the three tags appear in Discover Regions; a message scoped <code>oxr-conejo</code> "is forwarded by SkyNet"; the test "stays out of adjacent metros when spot-checked in CoreScope packet data"; unscoped traffic still flows. [[@plan:§07]] [[P]] It describes SkyNet with "454 relays in 24 hours", "18 hops average relayed packet path", "0.0% bridge score" and a neighbor list that ends with "Hyperion Fatline &middot; 60.8 mi". [[@plan:§07]]</p>
+<h4>What the sources show</h4>
+<ul>
+<li>[[I]] Criterion three passes whether or not scoping works as designed. No other repeater carries <code>oxr-conejo</code>, so the message cannot travel past SkyNet's direct neighbors under any outcome.</li>
+<li>[[F]] There is one way it could fail, and it is unrelated to the design: repeaters older than 1.10 forward scoped floods without checking them. The firmware author wrote that with such repeaters in an area "scoped flood packets will <em>leak</em> into other regions". [[@blog-region]]</li>
+<li>[[F]] CoreScope would display the test packets as unknown scope until the instance is given the names. [[@cs-scope; cs-src-cfg:L400-404]]</li>
+<li>[[F]] The analyzer's own usefulness score for SkyNet is 0.10, which it grades F, with traffic share 0.05, redundancy 0 and bridge score 0. [[@cs-skynet]] [[I]] The plan reads a zero bridge score as "clean test case". It also means almost no observed traffic depends on this node, so a pilot anchored on it will carry very few scoped packets.</li>
+<li>[[F]] "454 relays in 24 hours" is the analyzer's count (452 when I fetched it). [[@cs-skynet]] [[F]] SkyNet's own counter shows 316 floods sent in 46 minutes. [[@own-telemetry]] [[I]] The analyzer only sees relays that end up in a path recorded by an observer, so it undercounts this node's work by more than a factor of ten. Analyzer relay counts are the wrong instrument for a before-and-after test.</li>
+<li>[[F]] "18 hops" is not stable. The node's seven-day hop analytics on 13 October showed 61 packets, an average of 9.28 hops, a median of 9, and 4,043 packets set aside as ambiguous. [[@cs-skynet]]</li>
+<li>[[F]] SkyNet's second most-observed neighbor, "Highest in the Neighbor" (160 of 737 observations, behind NP Valley Spare with 209), is at 34.274, -118.792. [[@cs-skynet; cs-highest]] [[C]] That is about 1 km from the generator's reference point for Simi Valley (34.269, -118.781) and about 12 km from its point for the Conejo Valley (34.17, -118.838). [[@mk-data:L1016-1027]] [[I]] One of the two busiest links of the proposed "clean Conejo Valley test case" crosses the Simi Hills, the very line the plan draws between <code>oxr-conejo</code> and <code>oxr-simi</code>. A pilot cell drawn from the terrain table would cut it.</li>
+<li>[[F]] The Hyperion Fatline link rests on 120 observations that all fall inside a ten-second window on 8 October, resolved from the one-byte prefix 80, at 97.9 km. [[@cs-skynet]] [[I]] That pattern is a prefix collision resolved to the wrong node, and the entry should come out of the neighbor list.</li>
+<li>[[F]] The data does support the Ventura-side affiliation. SkyNet's advert reached an OXR-tagged observer in Camarillo in one hop through NP-CAM Grade (prefix 8943). The shortest path to any LAX-tagged observer was four hops. [[@cs-advert]] [[I]] Observer placement shapes those counts, so treat this as supporting evidence. It also answers a disagreement inside the generator repository, whose README puts east Ventura County with Los Angeles while its data now puts the Conejo Valley under Ventura. [[@mk-readme:L297-298; mk-data:L1016-1021]]</li>
+</ul>
+<div class="fix">
+<h4>Correction</h4>
+<p>[[R]] Replace &sect;07's criteria with the <a href="#fix-pilot">pilot protocol</a> below: at least three contiguous repeaters including the Conejo Grade site, on-node counters as the instrument, a positive and a negative control, and a stated prediction for each test. Say plainly that a mechanics pilot cannot show load reduction. A second, separate pilot that scopes one high-volume automated source for one zone can.</p>
+</div>
+<p class="need"><strong>Needs Discord.</strong> The owners of NP-CAM Grade, RASN, Green R1, NP Valley Spare, NP 700 ASL and COMT, who are the pilot's necessary partners.</p>
+</section>

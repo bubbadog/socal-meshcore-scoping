@@ -1,0 +1,55 @@
+name: Feedback on the plan
+description: A correction, new evidence, an objection, a question or a suggestion. No connection to the author needed.
+title: "[Feedback] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. Corrections from people who know the network are the reason this is public.
+        Please leave out the names of private individuals, and paraphrase Discord messages unless the person agrees to be quoted.
+  - type: dropdown
+    id: section
+    attributes:
+      label: Which part
+      options:
+        - Whole document
+        - Summary
+        - How this was made
+        - Why now
+        - How scoping works
+        - Names
+        - Answer to the Q2 report
+        - Rollout
+        - Commands
+        - Channels
+        - Pilots
+        - Measures
+        - Decisions
+        - Research still needed
+        - Red-team record
+        - Works cited
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of feedback
+      options:
+        - "Correction: something here is wrong"
+        - "Evidence: I can close an open item"
+        - "Objection: I disagree with a proposal"
+        - Question
+        - Suggestion
+    validations:
+      required: true
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Your feedback
+      description: What is wrong or missing, and how you know. A link or a command output helps.
+    validations:
+      required: true
+  - type: input
+    id: who
+    attributes:
+      label: Your callsign, mesh name or handle (optional)

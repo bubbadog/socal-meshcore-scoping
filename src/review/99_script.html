@@ -1,0 +1,23 @@
+<script>
+(function(){
+  var list=document.getElementById('lg-list');
+  var btns=document.querySelectorAll('.flt button');
+  function apply(f){
+    if(!list)return;
+    list.querySelectorAll('.lg').forEach(function(a){a.hidden=!(f==='all'||a.getAttribute('data-v')===f);});
+    btns.forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-f')===f?'true':'false');});
+    try{localStorage.setItem('rt-ledger-filter',f);}catch(e){}
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){apply(b.getAttribute('data-f'));});});
+  try{var saved=localStorage.getItem('rt-ledger-filter');if(saved&&document.querySelector('.flt button[data-f="'+saved+'"]'))apply(saved);}catch(e){}
+  document.querySelectorAll('button[data-copy]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var pre=b.closest('.cb').querySelector('pre');
+      var text=pre.textContent;
+      function done(ok){b.textContent=ok?'Copied':'Select and copy';setTimeout(function(){b.textContent='Copy';},1800);}
+      function select(){var r=document.createRange();r.selectNodeContents(pre);var s=window.getSelection();s.removeAllRanges();s.addRange(r);done(false);}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){done(true);},select);}else{select();}
+    });
+  });
+})();
+</script>

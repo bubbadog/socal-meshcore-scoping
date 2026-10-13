@@ -1,0 +1,111 @@
+<section class="fd" id="f6">
+<header><span class="n">6</span><h3>The hygiene values contradict the settings WCMesh has published</h3><span class="sev high">High</span></header>
+<p>[[P]] Phase 3: "Use flood advert 47h+, zero-hop 4h, set loop.detect minimal, and unique two-byte key prefixes." [[@plan:§04]]</p>
+<h4>What the sources show</h4>
+<ul>
+<li>[[F]] WCMesh's recommended repeater settings are <code>set path.hash.mode 1</code>, <code>set txdelay 1.6</code>, <code>set direct.txdelay 0.8</code>, <code>set loop.detect moderate</code>, <code>set flood.advert.interval 47</code> ("Higher the better"), <code>set advert.interval 0</code> ("Turns off direct adverts") and <code>set owner.info</code>. [[@wc-radio:L18-28]]</li>
+<li>[[F]] On zero-hop adverts the Q1 report says: "Direct adverts I would keep at <strong>0</strong>, since the parameter is set to minutes, even the max 240 is too much airtime." [[@wc-q1:L42]] The setup guide repeats the recommendation of 0. [[@wc-setup:L78]]</li>
+<li>[[F]] On loop detection the Q2 report says: "I would suggest setting <strong>loop.detect</strong> to <strong>moderate</strong> as we move to 2 byte mode." [[@wc-q2:L63]]</li>
+<li>[[F]] The plan's two differing values match the Netherlands guide: zero-hop adverts at 240 minutes and <code>set loop.detect minimal</code>. [[@nl-guide:L62-67, L129]] The PNW guide also uses <code>minimal</code>. [[@pnw-rollout:L175]]</li>
+<li>[[F]] What the two modes do: under <code>minimal</code> a repeater drops a flood once its own hash already appears 4 times in a one-byte path, 2 times in a two-byte path or once in a three-byte path. Under <code>moderate</code> the thresholds are 2, 1 and 1. [[@fw-rep:L396-411]]</li>
+<li>[[F]] 61.6 percent of the paths the analyzer counted in the week use one-byte hashes, and its per-repeater tally reads 263 one-byte against 445 two-byte and 70 three-byte. [[@cs-hash]]</li>
+<li>[[F]] The firmware itself switches zero-hop adverts off the first time a setting is saved, if the interval is below 60 minutes. The comment reads "turn it off, now that device has been manually configured". [[@fw-cli:L160-166]]</li>
+<li>[[F]] The plan omits the two transmit-delay settings WCMesh lists, <code>owner.info</code>, and <code>flood.max.advert</code>. [[@wc-q2:L95-100]]</li>
+</ul>
+<h4>Why it matters</h4>
+<p>[[I]] Both loop settings are defensible. With one-byte hashes and about 800 repeaters sharing 256 values, <code>moderate</code> will discard some legitimate long paths that happen to pass two repeaters sharing its prefix; <code>minimal</code> tolerates more real loops. WCMesh made that call and published it. A SoCal plan that silently carries the Dutch values asks operators to undo the local standard. [[I]] If you applied the four commands we went through on 10 October, SkyNet already runs the WCMesh values, and Phase 3 as written would move your own repeater away from them. [[@own-telemetry]]</p>
+<div class="fix">
+<h4>Correction</h4>
+<p>[[R]] Replace the hygiene sentence with: "Apply the WCMesh recommended repeater settings as published. This plan changes none of them." Then list them verbatim:</p>
+<div class="cb"><div class="cap"><span>WCMesh recommended repeater settings (firmware 1.14 or newer)</span><button type="button" data-copy>Copy</button></div><pre>set path.hash.mode 1
+set txdelay 1.6
+set direct.txdelay 0.8
+set loop.detect moderate
+set flood.advert.interval 47
+set advert.interval 0
+set owner.info &lt;how to reach you&gt;</pre></div>
+<p>[[R]] If the plan wants <code>minimal</code> while one-byte paths are still the majority, it should say so as a proposed change to the WCMesh standard and argue it with the hash-size data.</p>
+</div>
+</section>
+
+<section class="fd" id="f7">
+<header><span class="n">7</span><h3>The four reference communities do not "support the same sequence"</h3><span class="sev high">High</span></header>
+<p>[[P]] "Four communities (Pacific Northwest, Canada, Scotland, and the Netherlands) support the same sequence: tag repeaters, then scope companions, then consider restrictions by coordination." [[@plan:§04]] [[P]] "Scotland is the only cited reference community to have completed this step." [[@plan:§04]] [[P]] The case for acting now leans on ScotMesh's "roughly 24,000 daily flood packets". [[@plan:§01]]</p>
+<div class="tw"><table>
+<thead><tr><th>Community</th><th>Status</th><th>What it does with unscoped floods</th><th>Companions</th></tr></thead>
+<tbody>
+<tr><td>Scotland</td><td>[[F]] Live since the start of April 2026, adopted "out of sheer necessity" against flood traffic from England. [[@scot-regions:L15]]</td><td>[[F]] Denied on every repeater from the start: "wildcard forwarding must be denied". [[@scot-regions:L66-74]]</td><td>[[F]] Sub-regions deferred: "no pressing requirement to restrict in-country traffic to sub regions" for "at least another year". [[@scot-channels:L57]]</td></tr>
+<tr><td>Netherlands</td><td>[[F]] Eight steps, "Complete all steps. Do not skip any." [[@nl-guide:L42]]</td><td>[[F]] Step 8 is <code>region denyf *</code>. It was scheduled, then postponed to 18 July 2026. [[@nl-guide:L157-164; nl-commits]]</td><td>[[F]] Step 3 is "Stop bots &amp; scripts". [[@nl-guide:L82-83]]</td></tr>
+<tr><td>Canada, ON/QC</td><td>[[F]] "experimental", "Not adopted yet". [[@ca-onqc:L8-12, L31]]</td><td>[[F]] Edge repeaters drop them in Phase 1: "City repeaters keep * allowed; edge repeaters drop it." [[@ca-onqc:L342]]</td><td>[[F]] "January 2027 at the earliest". Bots and MeshMapper are scoped before people. [[@ca-onqc:L342-343]]</td></tr>
+<tr><td>Pacific Northwest</td><td>[[F]] Both phase dates read "DATE TBD"; "The dates above are placeholders." [[@pnw-rollout:L5-10]]</td><td>[[F]] Optional Phase 2. [[@pnw-rollout:L33]]</td><td>[[F]] Scoped inside Phase 1, as Step 4. [[@pnw-rollout:L132]]</td></tr>
+</tbody></table></div>
+<p>[[I]] Two of the four restrict early, one makes strict forwarding the mandatory last step, and one has not started. None has published before-and-after results for scoping inside a single RF-isolated mesh, which is the SoCal case. [[U]] I could not confirm whether the Dutch strict step actually happened on 18 July, so "Scotland is the only one to have completed this step" is unverified at best.</p>
+<p>[[I]] Scotland's lesson is about a perimeter against a busier neighbor on the same frequency. [[F]] SoCal already has that perimeter. In the maintainer's words: "Since we are on our own frequency, we pretty much have a built in region setting." [[@wc-q2:L78; wc-radio:L9-14]]</p>
+<p>[[F]] The 24,000 figure also cannot be set beside SoCal's load. The SoCal analyzer recorded 46,134 flood events in seven days, each relayed by at least 87 distinct repeaters on average. [[@cs-retx]] [[C]] That is about 6,591 unique floods a day. [[U]] ScotMesh does not say whether its 24,000 counts unique packets or receptions.</p>
+<div class="fix">
+<h4>Correction</h4>
+<p>[[R]] Replace the sentence with: "The four communities we looked at each sequence this differently. Scotland denied unscoped floods first, under pressure. The Netherlands makes strict forwarding a required final step. Canada's proposal restricts edge repeaters in its first phase and delays companions to 2027. The PNW plan is additive first and has no dates yet. None has published results for scoping inside one isolated mesh, so SoCal should instrument its rollout and expect to learn as it goes." Drop the "only community to have completed this step" sentence.</p>
+</div>
+</section>
+
+<section class="fd" id="f8">
+<header><span class="n">8</span><h3>Several headline facts are miscited, mislabeled or stale</h3><span class="sev high">High</span></header>
+<p>[[O]] A technical community will check the first three numbers it sees. Four of the plan's most visible facts fail that check, and each failure is cheap to fix. The full list is in the <a href="#ledger">claim ledger</a>; these are the ones that matter.</p>
+<ul>
+<li>[[P]] "On Public, the message limit changes from 137 to 127 characters", cited to the MeshCore FAQ. [[@plan:§02]] [[F]] The FAQ never mentions scopes. [[@fw-docs-faq]] [[F]] The figure is from the Canadian proposal: "In our testing, the limit on <code>Public</code> dropped from 137 to 127 characters after setting it to <code>onqc</code>. The app sets the exact limit, and it can vary with your node name and app version." [[@ca-onqc:L729-732]] [[F]] In firmware the channel text limit is 160 bytes including the "name: " prefix, so it does vary with the sender's name. [[@fw-chat:L488-496]]</li>
+<li>[[P]] "Nodes support 32 region entries, chains up to 8 levels, and codes up to 30 characters", cited to the CLI docs. [[@plan:§02]] [[F]] The CLI docs state neither the 32 nor the 30. Those come from the source: <code>MAX_REGION_ENTRIES 32</code> and <code>char name[31]</code>. [[@fw-regionmap-h:L7-8, L18]] [[F]] The firmware author's published limit is 29 bytes. [[@blog-region]] [[F]] "8 levels" appears in the docs only for the indentation of <code>region load</code>. [[@fw-docs-cli:L761]]</li>
+<li>[[P]] "99.5% of observed transport routes were unscoped", adopted in RT-3 as the precise wording. [[@plan:§01, RT-3]] [[F]] In MeshCore a transport route is by definition a packet that carries transport codes. [[@fw-packet:L52-58]] [[F]] The analyzer's "unscoped" total adds every ordinary flood and every direct-routed packet to the transport-route packets that lack a scope name; its source comment says the denominator "reflects total-observed-transmissions". [[@cs-src-db:L3270-3299]] [[F]] In my 24-hour window, 64 of the 65 transport-route packets were scoped. [[@cs-scope]] [[C]] The 99.5 percent is the unscoped share of all observed transmissions: 13,485 of 13,549.</li>
+<li>[[P]] "~600 repeaters in West Coast Mesh, approaching the Q2 2026 reported count". [[@plan:§01]] [[F]] The Q2 report, dated 26 July, says "we are approaching the 600 repeater mark". [[@wc-q2:L7, L90]] [[F]] The analyzer listed 806 repeaters on 13 October. [[@cs-stats]]</li>
+<li>[[F]] The FAQ is cited three times for scope behavior it does not contain. [[@plan:§02, §03; fw-docs-faq]]</li>
+<li>[[F]] 13 of the 24 reference links point at a moving branch (<code>HEAD</code> or <code>main</code>), and 9 of the 24 are never cited in the body. [[@plan:§10]] Details in the <a href="#refaudit">reference audit</a>.</li>
+<li>[[F]] The plan's Fact chip appears on six statements. The metric tiles, the role cards, the terrain table and the pilot statistics assert facts without one, and &sect;06 cites no source for any geographic statement. [[@plan:§01, §03, §06, §07]]</li>
+<li>[[P]] "Live analyzer values are snapshots from 12 October 2026". [[@plan:§10]] [[I]] No copy of the values is attached, so nobody can re-check them. The analyzer keeps about seven days of packets. [[@cs-rf]]</li>
+</ul>
+<div class="fix">
+<h4>Correction</h4>
+<p>[[R]] Use the replacement wording in the ledger, link every GitHub source by commit hash and line, and attach the raw analyzer responses as a file. Every pinned link in this review's works cited can be lifted as is.</p>
+</div>
+</section>
+
+<section class="fd" id="f9">
+<header><span class="n">9</span><h3>The plan does not answer the maintainer's published position, or the tunneling threat he describes</h3><span class="sev high">High</span></header>
+<p>[[P]] The plan cites the Q2 State of the Mesh five times, always for a number. [[@plan:§01, §05, RT-22]] It never mentions that report's Region/Scope section.</p>
+<h4>What that section says</h4>
+<ul>
+<li>[[F]] Q1: "There has been some talk about setting regions, however, I don't think it works with our mesh right now." [[@wc-q1:L84]]</li>
+<li>[[F]] Q2: "Since we are on our own frequency, we pretty much have a built in region setting." and "Personally, I would like to keep things local and not implement bridges." [[@wc-q2:L78]]</li>
+<li>[[F]] Q2: "We could add regions to our repeaters if we want to really define our mesh. There still is no way of decoding scopes in the companion software so everyone will still see every message, even if it is scoped." [[@wc-q2:L80]]</li>
+<li>[[F]] The report opens by saying it is "not a definitive stance of the mesh" and that "Not a single person can police the mesh." [[@wc-q2:L12]]</li>
+<li>[[F]] It describes a "tunneling event in PNW where someone is taking Bay Area traffic and injecting it into PNW", through what it calls a ghost repeater fed from MQTT data. [[@wc-q2:L84]]</li>
+</ul>
+<h4>Why it matters</h4>
+<p>[[I]] This is the first objection the plan will meet, from the maintainer whose account also committed the competing SoCal names (Finding 1). He is right on the main point: the perimeter argument for scoping is already met by frequency. The case that survives is narrower. Scoping in SoCal can only help by containing automated and local floods inside one mesh, and the plan has to make that case with numbers (Finding 3).</p>
+<p>[[F]] On tunneling, public region names protect nothing. A region's key is the first 16 bytes of SHA-256 of <code>#</code> plus the name, and the code on a packet is an HMAC over the payload type and payload alone. [[@fw-regionmap:L175-183; fw-tks:L4-18, L44-47]] [[I]] Nothing in that input depends on time, sender or location, so a replayed scoped packet carries a valid code wherever its name is allowed. [[F]] Private regions, the names starting with <code>$</code>, have no working key storage: the save routine is a TODO that returns failure. [[@fw-tks:L52-76]] [[F]] A repeater remembers only its 160 most recent packet hashes for duplicate detection. [[@fw-tables:L9]] [[I]] A packet replayed after that window looks new. Denying the wildcard or capping unscoped hops stops replayed unscoped traffic only.</p>
+<div class="fix">
+<h4>Correction</h4>
+<p>[[R]] Add a short section titled "Response to the Q2 State of the Mesh" with four points: (1) agreed, frequency already gives SoCal its outer boundary, and this plan proposes no bridges; (2) the proposal is about floods inside SoCal, two thirds of which by message count are test, bot and wardriving traffic; (3) companions do not filter on receive, so scoping changes who relays a message and does not hide it from anyone in range; (4) scoping is a traffic tool and offers no defense against replay.</p>
+</div>
+<p class="need"><strong>Needs Discord.</strong> Whether this position has moved since July. The August commits to the generator suggest it has.</p>
+</section>
+
+<section class="fd" id="f10">
+<header><span class="n">10</span><h3>The wide scope saves nothing inside an isolated mesh, replies follow the replier, and no gate is measurable</h3><span class="sev high">High</span></header>
+<p>[[P]] Companions set Default Region Scope to <code>socal</code>; Public, #socal and the emergency channels go to <code>socal</code>. [[@plan:§03, §05]] [[P]] Phase 4 starts at boundary nodes with "either <code>region denyf *</code> or the gentler <code>set flood.max.unscoped 3</code>". [[@plan:§04]] [[P]] "Success means the unscoped share trends down while scoped delivery remains intact." [[@plan:§04]]</p>
+<h4>What the sources show</h4>
+<ul>
+<li>[[F]] Once a packet's region resolves, the forwarding checks are the same for scoped and unscoped floods, apart from the separate unscoped hop limit. [[@fw-rep:L434-458; fw-routing:L15-22]] [[I]] If every SoCal repeater carries <code>socal</code> and nothing outside SoCal shares the frequency, a <code>socal</code>-scoped flood is relayed by exactly the repeaters that relay an unscoped one. The airtime saving is zero.</li>
+<li>[[F]] A scoped flood is 4 bytes longer than an unscoped one, because the two 16-bit codes are written into the packet. [[@fw-packet:L52-58]] [[C]] At this preset that is about 10 milliseconds, or 4 percent, on the mesh's average 56-byte packet. [[@own-toa; cs-rf]] [[I]] Moving traffic to <code>socal</code> without any change in who relays it therefore raises airtime slightly.</li>
+<li>[[C]] Requests, direct messages, anonymous requests, path returns, responses and ACKs add up to 37 percent of relay airtime. [[@cs-airtime]] [[I]] Under the plan all of that moves to <code>socal</code> through the companion default, together with Public. The plan's own success metric can therefore reach 100 percent scoped with no reduction in load.</li>
+<li>[[F]] The metric's denominator includes direct-routed packets, which never carry a transport code, so the unscoped share cannot approach zero either. [[@cs-src-db:L3288-3299]]</li>
+<li>[[F]] A companion's ACKs and path returns go out under the replier's own setting: unscoped if the app asked for that, otherwise the app's current scope override, otherwise the replier's default scope. [[@fw-chat:L252-302; fw-comp:L500-510]] [[F]] Canada's guide says it in user terms: "The reply that tells your companion the path comes back using <strong>your contact's</strong> default scope." [[@ca-onqc:L768-769]]</li>
+<li>[[F]] A repeater's own replies use the request's scope when it can resolve it, go unscoped when the request was unscoped, and fall back to its default scope otherwise. [[@fw-routing:L60-66; fw-rep:L413-431]]</li>
+<li>[[F]] The median observed path in SoCal is 9 hops and the mean 11.1. [[@cs-topo]] [[I]] A 3-hop limit on unscoped floods is therefore close to a denial for anything that needs to cross the region. "Gentler" overstates the difference.</li>
+<li>[[P]] The only condition on companions is "only after the repeaters serving them carry the relevant tags". [[@plan:§04]] [[I]] Nobody can test that sentence.</li>
+</ul>
+<h4>Why it matters</h4>
+<p>[[I]] During migration a scoped user and an unscoped user can reach each other only while both <code>socal</code> and the wildcard are forwarded along the whole path. The day boundary nodes deny the wildcard or cap it at 3 hops, replies from every companion that has not migrated die at the boundary, and the migrated sender sees messages that are never acknowledged. Emergency channels have the same exposure: while the wildcard is allowed everywhere, unscoped is the widest reach there is, and scoping an emergency channel can only shrink it.</p>
+<div class="fix">
+<h4>Correction</h4>
+<p>[[R]] Say plainly that <code>socal</code> is plumbing for a later strict phase and saves no airtime by itself. Keep emergency and alert channels unscoped until a wide-scope test message reaches every observer site. Replace Phase 4's two options with a staged limit that starts high and steps down only on evidence. Replace the success sentence with outcome measures. Each of these is written out in <a href="#fix-rollout">Corrected rollout</a> and <a href="#fix-kpi">Measures that can fail</a>.</p>
+</div>
+</section>

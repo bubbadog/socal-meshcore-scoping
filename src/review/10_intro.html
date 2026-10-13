@@ -1,0 +1,53 @@
+<nav class="toc" aria-label="Sections"><div>
+<a href="#verdict">Verdict</a><a href="#findings">Findings</a><a href="#ledger">Claim ledger</a><a href="#fixes">Corrected text</a><a href="#holds">What holds up</a><a href="#refaudit">Reference audit</a><a href="#open">Open evidence</a><a href="#appendix">Appendices</a><a href="#works">Works cited</a>
+</div></nav>
+<div class="wrap">
+<header class="top">
+<p class="eyebrow">Red team review, prepared 13 October 2026</p>
+<h1>SoCal MeshCore Scoping Plan, Draft v3</h1>
+<p class="sub">Every factual claim in the plan checked against its source, [[#findings]] findings ranked by how much damage they would do, and replacement text and commands ready to paste into a v4.</p>
+<div class="meta"><span>Preset 927.875 MHz / 62.5 kHz / SF7 / CR5</span><span>Firmware read at repeater-v1.17.1</span><span>Analyzer snapshot 13 Oct 2026, 07:30 to 07:50 UTC</span><span>Discord unread after two attempts</span></div>
+</header>
+<div style="margin:1.2rem 0;padding:1rem 1.2rem;border:1px solid var(--rule);border-left:4px solid var(--accent);background:var(--surface)"><p style="margin:0"><strong>Archived working review.</strong> Claude wrote this on 13 October 2026 for the author of the plan, which is why it says "you" and "I". It reviews Draft v3 and is published unchanged for transparency, except that the names of individual users and of three audited repeaters are withheld. The current proposal is <a href="index.html">Draft v6</a>, which answers these findings; corrections belong in the <a href="https://github.com/bubbadog/socal-meshcore-scoping" target="_blank" rel="noopener">repository</a>.</p></div>
+
+<section id="verdict">
+<div class="verdict">
+<p><strong>The plan describes the mechanism correctly and draws the wrong strategy from it.</strong> Its account of how regions and scopes behave matches the firmware source nearly line for line. The problems are in what it does with that mechanism and in what it says about the mesh it is written for. Four of them should stop this draft from going to the community as it stands.</p>
+<ol>
+<li><strong>It forks the namespace.</strong> The plan proposes airport-code metros. The account that owns the WCMesh docs committed a different SoCal tree (counties and local areas) to the matkam generator in August 2026, and the plan describes that scheme from a stale README. Two further vocabularies exist. Scoped traffic using both families of names is already on the air. <a href="#f1">Finding 1</a>.</li>
+<li><strong>It calls the load modest.</strong> The report it cites for its numbers says the mesh is starting to hit the 20 to 25 percent threshold. Live channel traffic is about twice the figure the plan quotes, and SkyNet's own counters put its late-afternoon channel occupancy near 22 percent. <a href="#f2">Finding 2</a>.</li>
+<li><strong>It aims at the smallest traffic.</strong> The design effort (24 sub-regions and a terrain map) serves local channels that carry 2.6 percent of channel messages. Wardriving pings (24 percent) have no policy at all, and test and bot traffic (about 45 percent) gets one line in a late phase. <a href="#f3">Finding 3</a>.</li>
+<li><strong>Its first step is not purely additive.</strong> <code>region default &lt;metro&gt;</code> scopes a repeater's own flood adverts, and every neighbor without that tag drops them. The single-node pilot cannot detect this, or anything else the plan wants it to prove. Findings <a href="#f4">4</a> and <a href="#f5">5</a>.</li>
+</ol>
+<p>The rest is repairable in an edit pass: wrong or misattributed citations, hygiene values that contradict the WCMesh published settings, a terrain table with three rows on the wrong side of a mountain range, and a cookbook that only works on one firmware generation. Corrected versions of each are in <a href="#fixes">Corrected text</a>.</p>
+</div>
+
+<div class="tiles" aria-label="Verdicts on the plan's factual claims">
+<div class="tile"><b>[[#total]]</b><span>claims checked</span></div>
+<div class="tile ok"><b>[[#ok]]</b><span>confirmed</span></div>
+<div class="tile cav"><b>[[#cav]]</b><span>confirmed with a caveat</span></div>
+<div class="tile wrong"><b>[[#wrong]]</b><span>wrong or unsupported</span></div>
+<div class="tile src"><b>[[#src]]</b><span>right fact, wrong source</span></div>
+<div class="tile old"><b>[[#old]]</b><span>out of date</span></div>
+<div class="tile unv"><b>[[#unv]]</b><span>could not verify</span></div>
+</div>
+
+<h3>How to read this</h3>
+<p>Every sentence that asserts something carries one of eight chips. A bracketed number points to the <a href="#works">works cited</a> list; a line reference after it opens the exact lines in the pinned source. Quotations are verbatim, with one exception: where the plan or a source uses a long dash, I have set it as a comma or parentheses.</p>
+<ul class="legend">
+<li>[[P]] A quotation or close paraphrase of the plan, with its section.</li>
+<li>[[F]] Checked by me against the cited source. Live data is a fact about the moment it was fetched.</li>
+<li>[[C]] Arithmetic on cited facts. The inputs are cited.</li>
+<li>[[I]] My reasoning from facts. It could be wrong and says why it might be.</li>
+<li>[[E]] A number that rests on stated assumptions.</li>
+<li>[[O]] A judgment call.</li>
+<li>[[R]] What I would change.</li>
+<li>[[U]] Something I could not check. Treat as open.</li>
+</ul>
+
+<h3>What this review rests on</h3>
+<p>[[F]] I read the MeshCore firmware at release tag repeater-v1.17.1, the newest repeater tag on 13 October 2026, plus earlier tags where behavior changed. [[@gh-tags]] [[F]] I read the WCMesh documentation repository including its git history, the matkam generator repository including its commit authorship, and the rollout documents of the four communities the plan cites. [[@wc-q2; mk-data; pnw-rollout; ca-onqc; scot-regions; nl-guide]] [[F]] I pulled live figures from the WCMesh CoreScope analyzer on 13 October 2026 between 07:30 and 07:50 UTC; those numbers move, so the captured values are tabulated in <a href="#app-a">Appendix A</a>. [[@cs-stats]] [[F]] I examined 13 scoped packets from the SoCal air and recovered the region name on 12 of them by reproducing the firmware's transport-code calculation. [[@own-decode]]</p>
+<p>[[U]] <strong>Nobody in this process has read the Discord server.</strong> No tool available to me can reach it. The second assistant you asked to read it reports that the server refused its invite five times, and sent a memo built from public sources instead. [[@memo]] I checked that memo's leads against primary sources and folded in what held up; the cross-check is in <a href="#memo">Open evidence</a>. Findings that Discord could confirm or overturn are marked "Needs Discord". I also did not assess FCC Part 15 compliance of the radio preset, and I could not inspect the closed-source companion app.</p>
+<p>[[U]] <strong>This reviews Draft v3</strong>, the file you gave me. The memo mentions a v4 published on 13 October, which I have not seen. [[@memo]]</p>
+<p>[[F]] <strong>Checks run on this page before publishing.</strong> A script matched every quotation (141 fragments) against the text of its cited source and confirmed that all 253 line references fall inside their files. It flagged twelve, which I checked by hand: seven are phrases of the plan quoted beside another source's citation, two are artifacts of how it pairs quotation marks, and the others are a line from our 10 October session, a quotation whose source wraps one character in markup, and a reply built from a format string. Thirty-five calculations were recomputed by script, all 120 internal links resolve, and the 12 scope decodes were reproduced by a second, independent 15-line implementation (Appendix B). [[U]] A separate second-reader pass by three independent agents was started and stopped when the account ran out of usage credits, before any of them reported. It has not been rerun.</p>
+</section>

@@ -1,0 +1,78 @@
+<section id="holds">
+<h2>What holds up</h2>
+<p>The criticism above is the useful part, so it came first. These parts of Draft v3 are correct and should survive into v4.</p>
+<ul>
+<li>[[F]] <strong>The mechanism.</strong> Per-name matching, flat tags, floods only, two 16-bit codes, the wildcard as the default region, and <code>denyf *</code> as a breaking change all check out against the source. [[@fw-regionmap:L190-204; fw-rep:L434-443, L556-568]]</li>
+<li>[[F]] <strong>Add first, restrict last.</strong> The instinct matches the firmware author, who wrote of denying the wildcard that "this is NOT advised at this stage". [[@blog-region]]</li>
+<li>[[F]] <strong>Dropping <code>west</code> as the wide tag</strong> (RT-1). It is another community's root. [[@pnw-rollout:L103]]</li>
+<li>[[F]] <strong><code>socal</code> as the wide name.</strong> It is the one name shared by the plan, the generator and the withdrawn wiki draft, so it is safe whichever way Finding 1 is settled. [[@mk-data:L945; wc-regions-old:L7-28]]</li>
+<li>[[F]] <strong>"Companion adoption follows repeater configuration, never leads it."</strong> The firmware author says the same: users "will have to wait until this repeater config has spread". [[@blog-region]]</li>
+<li>[[I]] <strong>The peak-role correction</strong> (RT-17) is right, and the plan was right to call it the most load-bearing design change in its own log.</li>
+<li>[[C]] <strong>RT-22.</strong> Catching that the Q2 categories overshoot the total shows the right habit with numbers. [[@wc-q2:L37]]</li>
+<li>[[O]] <strong>"If this drawing disagrees with what operators measure on RF, the measurements win."</strong> Keep that sentence and apply it to the whole plan.</li>
+<li>[[O]] <strong>The status banner and the open-decision list.</strong> Saying "Not yet adopted" on every screen is honest, and labeling facts, inferences and recommendations is the right practice. It needs to reach every factual sentence.</li>
+</ul>
+</section>
+
+<section id="refaudit">
+<h2>Reference audit</h2>
+<p>[[F]] The plan lists 24 references and says "Every external link used by the plan is collected here." [[@plan:§10]] [[F]] Fifteen carry an anchor that the body cites; nine are never cited. Thirteen link to a file on a moving branch. Three are cited for content they do not contain.</p>
+<div class="tw"><table>
+<thead><tr><th>Reference as listed</th><th>Cited in body</th><th>Finding</th></tr></thead>
+<tbody>
+<tr><td>CLI commands (<code>blob/main</code>)</td><td class="num">6 times</td><td>[[F]] Moving branch. Supports the <code>region def</code> syntax; does not contain the 32-entry or 30-character limits it is cited for. [[@fw-docs-cli:L761, L845-847]]</td></tr>
+<tr><td>MeshCore FAQ (<code>blob/main</code>)</td><td class="num">3 times</td><td>[[F]] Moving branch. Contains none of the three things it is cited for; the word "scope" does not occur in it. [[@fw-docs-faq]]</td></tr>
+<tr><td>Release 1.16.0 notes</td><td class="num">2 times</td><td>[[F]] Stable address; supports the claim. [[@blog-116]]</td></tr>
+<tr><td>PR #2661</td><td class="num">once</td><td>[[F]] Named in the release notes as the source of <code>flood.max.unscoped</code>. [[@blog-116]] [[U]] I did not open the pull request.</td></tr>
+<tr><td>CoreScope analyzer, WCMesh</td><td class="num">3 times</td><td>[[I]] Links the site's front page for figures that change hourly. Cite the API endpoint and time, and attach the values.</td></tr>
+<tr><td>CoreScope repository</td><td class="num">never</td><td>[[F]] This is where the "unscoped" metric is defined. It should have been used. [[@cs-src-db:L3270-3299]]</td></tr>
+<tr><td>WCM Q2-2026 State of the Mesh (<code>blob/HEAD</code>)</td><td class="num">5 times</td><td>[[F]] Moving branch. Supports the numbers; its Region/Scope section is ignored. [[@wc-q2:L78-80]]</td></tr>
+<tr><td>WCM getting started (<code>blob/HEAD</code>)</td><td class="num">once</td><td>[[F]] Moving branch. Supports the radio settings. [[@wc-start:L57-68]]</td></tr>
+<tr><td>WCM overview, k7cfo (<code>blob/HEAD</code>)</td><td class="num">never</td><td>[[F]] A general overview with nothing on regions. [[@k7cfo]]</td></tr>
+<tr><td>California scheme and generator, matkam README (<code>blob/HEAD</code>)</td><td class="num">3 times</td><td>[[F]] Moving branch, and out of date against the data file beside it. [[@mk-readme:L328-345; mk-data:L127-130]]</td></tr>
+<tr><td>Configuration generator site</td><td class="num">never</td><td>[[I]] The generator's actual output is what operators will paste, so it deserved a look.</td></tr>
+<tr><td>Machine-readable region data</td><td class="num">never</td><td>[[F]] This is the file that contradicts the plan's "tag concept" sentence. [[@mk-data:L127-130]]</td></tr>
+<tr><td>PNW rollout guide; PNW region strategy (<code>blob/HEAD</code>)</td><td class="num">2 times each</td><td>[[F]] Moving branch. Support the mechanics; the rollout has no dates. [[@pnw-rollout:L5-10; pnw-strategy]]</td></tr>
+<tr><td>PNW rendered guide</td><td class="num">never</td><td>Duplicate of the two above.</td></tr>
+<tr><td>meshcore-bot v1.1.0, "census tooling"</td><td class="num">never</td><td>[[F]] Listed and not used anywhere in the plan. [[@bot-release]]</td></tr>
+<tr><td>Canada ON/QC scope proposal (<code>blob/HEAD</code>)</td><td class="num">2 times</td><td>[[F]] Moving branch. The real source of the 137 to 127 figure; experimental and not adopted. [[@ca-onqc:L8-12, L729-732]]</td></tr>
+<tr><td>ScotMesh regions; ScotMesh scopes (<code>blob/HEAD</code>)</td><td class="num">2 times; once</td><td>[[F]] Moving branch. Support the 24,000 figure and the <code>ioi</code> precedent. [[@scot-regions:L15, L116-122]]</td></tr>
+<tr><td>ScotMesh repeater quick setup (<code>blob/HEAD</code>)</td><td class="num">never</td><td></td></tr>
+<tr><td>ScotMesh settings site</td><td class="num">once</td><td>[[U]] Cited for "the only cited reference community to have completed this step". I did not fetch this site.</td></tr>
+<tr><td>Netherlands settings guide (<code>blob/HEAD</code>)</td><td class="num">once</td><td>[[F]] Moving branch. Cited in support of "Add first. Observe second. Restrict last."; it requires strict forwarding as a final step. [[@nl-guide:L42, L157-164]]</td></tr>
+<tr><td>Two YouTube videos</td><td class="num">never</td><td>[[F]] Titles confirmed. [[@yt-1; yt-2]] [[U]] Not watched.</td></tr>
+</tbody></table></div>
+<p>[[R]] Sources the plan should add: the firmware author's two posts on region filtering and default scope; the WCMesh radio settings page and Q1 report; the MeshMapper admin page; and the firmware source files for every limit it quotes. [[@blog-region; blog-default; wc-radio; wc-q1; mm-admin; fw-regionmap-h]]</p>
+</section>
+
+<section id="open">
+<h2>Open evidence</h2>
+<p>What I could not reach, and what each item could change.</p>
+<div class="tw"><table>
+<thead><tr><th>Gap</th><th>What it could change</th></tr></thead>
+<tbody>
+<tr><td>[[U]] <strong>The Discord server.</strong> Not readable with my tools, and the second assistant's invite was refused. [[@memo]]</td><td>Finding 1 (has a vocabulary been chosen, and why was the March guide withdrawn), Finding 3 (who runs MeshMapper and the bots), Finding 5 (pilot partners), Finding 9 (has the maintainer's position moved), and any airtime or traffic numbers newer than July. The surest route now is for you to copy the relevant threads out by hand, with dates, and I will cite them in place.</td></tr>
+<tr><td>[[U]] <strong>The companion app.</strong> Closed source.</td><td>Whether typed capitals are folded to lower case; the exact message-length change on scoped channels; how per-channel scope and default scope interact in the interface. All three are quick bench checks.</td></tr>
+<tr><td>[[U]] <strong>MeshMapper's zone boundaries and admin settings.</strong> I saw the zone list through a page summary only.</td><td>Whether five zones cover Orange County and the Inland Empire, and what the Wardriving Scope field accepts.</td></tr>
+<tr><td>[[U]] <strong>The hosted copy of the plan.</strong> The site refused automated access, so I reviewed the file you uploaded.</td><td>Nothing, if the two are identical.</td></tr>
+<tr><td>[[U]] <strong>Counting methods.</strong> The State of the Mesh reports do not say how their daily message counts are produced.</td><td>Whether "about double" in Finding 2 is growth or a difference in method.</td></tr>
+<tr><td>[[U]] <strong>Whether the Dutch strict step ran on 18 July.</strong></td><td>One sentence in Finding 7.</td></tr>
+<tr><td>[[U]] <strong>A Q3 State of the Mesh.</strong> The docs repository's newest commit is 16 August 2026 and has no Q3 report.</td><td>Every baseline number, and possibly the maintainer's stance on regions.</td></tr>
+<tr><td>[[U]] <strong>FCC Part 15 status of the preset.</strong> Not assessed. Outside the scope of a scoping plan, and I would not state a regulatory conclusion from memory.</td><td>Nothing in this review.</td></tr>
+</tbody></table></div>
+
+<h3 id="memo">Cross-check of the second assistant's memo</h3>
+<p>[[F]] The memo answers the ten questions I had set for the Discord read from public sources only, and labels its own claims as fact or inference. [[@memo]] I used it as leads. This is what held up.</p>
+<div class="tw"><table>
+<thead><tr><th>What the memo says</th><th>What I found</th></tr></thead>
+<tbody>
+<tr><td>"No namespace decision exists anywhere public", and the March guide is the only written scheme.</td><td>[[F]] Its repository history is right. [[@wc-log; wc-regions-rm]] [[F]] Its conclusion is incomplete: the account that owns the WCMesh docs committed a full SoCal vocabulary to the generator repository on 3 and 24 August. [[@mk-c1; mk-c2]] Finding 1 stands.</td></tr>
+<tr><td>"70 scoped vs 13,528 unscoped transport routes" in 24 hours.</td><td>[[F]] In line with the 64 and 13,485 I captured about an hour earlier. [[@cs-scope]] [[F]] It repeats the plan's mislabel: the large number is every transmission that is not a transport route (Finding 8). [[@cs-src-db:L3288-3299]]</td></tr>
+<tr><td>My scope decodes "can't be corroborated publicly"; Rancho North's stored adverts "show empty scope fields".</td><td>[[F]] An empty scope name is how the analyzer records a scoped packet whose name it cannot resolve; an unscoped packet has no value at all. [[@cs-src-db:L3270-3278]] The memo's observation therefore agrees with mine. [[F]] Anyone can confirm the decodes from the packet bytes and 15 lines of code in Appendix B. [[I]] Two of the senders are known only by names read from inside channel messages, so a node search need not find them.</td></tr>
+<tr><td>Scoped traffic is "orphaned": no repeater declares a region, so the scopes "aren't coming from repeater configs".</td><td>[[F]] The audit covers 30 repeaters. [[@cs-audit]] [[C]] That is under 4 percent of the 806 listed. [[F]] The analyzer's seven-day advert table shows 5 repeater adverts carrying an unresolved scope, and a repeater's adverts only carry a scope when a default scope is configured on it. [[@cs-scope; fw-rep:L1031-1038]] [[I]] At least one repeater, Rancho North, is configured, so the inference fails.</td></tr>
+<tr><td>MeshMapper shows "Wardriving Scope: not set" on all five SoCal zones, and counts 4 scoped repeaters among 1,250.</td><td>[[U]] Consistent with what I saw on the SoCal map page, and not confirmed by my own fetch of the leaderboard. [[@mm-socal; mm-board]]</td></tr>
+<tr><td>Multibyte board figures for the five zones.</td><td>[[F]] Los Angeles and San Diego confirmed. [[@mm-board]] [[U]] The other three not loaded. Used in Finding 14.</td></tr>
+<tr><td>Positions of seven Conejo-area repeaters.</td><td>[[F]] Confirmed for "Highest in the Neighbor", which turns out to sit in Simi Valley. [[@cs-highest]] Used in Finding 5. [[U]] The other six not re-fetched.</td></tr>
+<tr><td>The plan "was published 2026-10-13 (v4)".</td><td>[[U]] I reviewed v3 and have not seen v4.</td></tr>
+</tbody></table></div>
+</section>
