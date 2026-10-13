@@ -34,7 +34,8 @@ jobs:
             exit 1;
           }
       - name: Scope decoder reproduces the published packets
-        run: python3 tools/decode_scope.py --file src/packets.json | tee /dev/stderr | grep -c "matches: psp" | grep -qx 3
+        run: |
+          python3 tools/decode_scope.py --file src/packets.json | tee /dev/stderr | grep -c "matches: psp" | grep -qx 3
 
   sources:
     name: sources
