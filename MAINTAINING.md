@@ -26,6 +26,10 @@ Definitions live in [.github/rulesets](.github/rulesets) and must always match w
 
 `main-pull-requests.json` routes contributors' changes through a squash-merged pull request that must pass `build`. Repository admins are on its bypass list, so the maintainer can push small changes straight to `main`; GitHub shows a bypass notice on the push. Nobody can force-push, delete `main`, or move a `v` tag.
 
+## Where the truth lives
+
+This repository is the only source of truth for the plan. The published page is built from `src/`; the GitHub Pages site is built from `main`; nothing is edited anywhere else first. Working copies elsewhere (a Claude artifact, a PDF, a pasted excerpt) are snapshots of a commit and carry no changes of their own. If a snapshot and the repository disagree, the repository wins, and the snapshot is regenerated from it or retired. Every change, however small, lands here as a commit: the maintainer may push to `main` under the admin bypass; everyone else, Claude included, goes through a pull request. When outside information arrives (a Discord read, a member's correction, a bench-test result), it is checked against the repository's current state before it is folded in, so that a stale copy cannot overwrite a newer one.
+
 ## Everyday work
 
 - Edit text in `src/doc/`, run `python3 src/build.py doc`, commit both the source and the rebuilt `index.html`.
