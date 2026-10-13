@@ -1,10 +1,10 @@
 # Changelog
 
-## Draft v6, 13 October 2026
+## Public draft 1 (internal draft 6), 13 October 2026
 
-First public, consolidated edition. It merges the operator's Draft v5 (written with Muse) with the red-team review of Draft v3 (written by Claude), and answers every finding of that review.
+First public, consolidated edition. It merges the operator's working draft 5 (written with Muse) with the red-team review of working draft 3 (written by Claude), and answers every finding of that review.
 
-Changed from Draft v5:
+Changed from working draft 5:
 
 - Load is now the stated reason for the plan. The claim that "99.5% of observed transport routes were unscoped" is dropped, because the analyzer's unscoped total counts every ordinary flood and direct packet.
 - No region names are ratified. The four existing sets of names are shown side by side with three ways to converge.
@@ -37,4 +37,4 @@ Not yet reflected: anything said in the WCMesh Discord.
 
 ## Earlier drafts
 
-Drafts v1 to v5 were working drafts and are not published here. The review of Draft v3 is archived as `review.html`, with the names of individual users withheld.
+Working drafts 1 to 5 are not published here. The review of working draft 3 is archived as `review.html`, with the names of individual users withheld.

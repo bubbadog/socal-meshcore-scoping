@@ -2,7 +2,7 @@
 
 A community proposal for region scoping on the Southern California MeshCore network: what to do first, which region names to agree on, and what is still unknown.
 
-**Status: Draft v6, 13 October 2026. Not adopted.** This is one repeater operator's proposal for the West Coast Mesh community to correct. It speaks for nobody else.
+**Status: Public draft 1, 13 October 2026. Not adopted.** (Internally this is the sixth draft; five working drafts preceded it.) This is one repeater operator's proposal for the West Coast Mesh community to correct. It speaks for nobody else.
 
 - **Read it:** https://bubbadog.github.io/socal-meshcore-scoping/
 - **Red-team review of the earlier draft:** https://bubbadog.github.io/socal-meshcore-scoping/review.html
@@ -32,20 +32,20 @@ One person worked with two AI systems. Readers should weigh the document with th
 
 | Step | Who | What |
 | --- | --- | --- |
-| 1 | The operator, with Muse (believed to be the Spark 1.3 model) | Drafts v1 to v5 of the plan and the public web research |
-| 2 | Claude from Anthropic (Fable 5.1) | Firmware read at its release tag, a claim-by-claim red-team review of Draft v3, analysis, the region names decoded from packets on air, and this consolidated edition |
+| 1 | The operator, with Muse (believed to be the Spark 1.3 model) | Working drafts 1 to 5 of the plan and the public web research |
+| 2 | Claude from Anthropic (Fable 5.1) | Firmware read at its release tag, a claim-by-claim red-team review of working draft 3, analysis, the region names decoded from packets on air, and this consolidated edition |
 | 3 | The community | Corrections, through issues and pull requests |
 
 AI systems make confident mistakes. Every statement in the document carries a label (Fact, Calculation, Inference, Estimate, Opinion, Recommendation, Unverified) and facts carry a numbered source so they can be checked.
 
-## What was checked for Draft v6
+## What was checked for public draft 1
 
 | Check | Result |
 | --- | --- |
 | Pinned GitHub file links that exist at their commit | 142 of 142, plus 3 commit links (`tools/check_links.py`, run against fresh clones from GitHub) |
 | Internal links that resolve | 268 of 268 |
 | Line references inside their files | 113 of 113 (`tools/check_quotes.py`) |
-| Quotation fragments | 33: 16 matched by script to pinned source files, 14 matched by script to the unpublished Draft v5 file, 3 checked by hand (two against the MeshCore blog, one against a firmware format string) |
+| Quotation fragments | 33: 16 matched by script to pinned source files, 14 matched by script to the unpublished working draft 5, 3 checked by hand (two against the MeshCore blog, one against a firmware format string) |
 | Scope decoding | Reproduced by a second, independent implementation (`tools/decode_scope.py`) |
 | New calculations in this edition | Recomputed by script |
 | Independent read | A separate AI agent that had not seen the document being written checked the firmware claims, every command block and a sample of citations against the pinned sources. It found eleven errors; all are corrected (see [CHANGELOG.md](CHANGELOG.md)) |
@@ -56,7 +56,7 @@ What was **not** checked: the independent read did not reach the claims sourced 
 
 ```
 index.html            the plan, built (served by GitHub Pages)
-review.html           the archived red-team review of Draft v3, built
+review.html           the archived red-team review of working draft 3, built
 src/doc/              the plan's source text, in HTML with a few macros
 src/review/           the review's source text
 src/refs.py           every source, with its pinned URL

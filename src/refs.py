@@ -25,8 +25,8 @@ GROUPS = [
 
 REFS = [
     # A
-    ("plan", "A", "<i>SoCal MeshCore Scoping Plan</i>, Draft v3, \"topography review\", dated 13 October 2026, marked \"Not yet adopted\", produced by the author with Muse. Reviewed from the HTML file the author supplied (1.56 MB). Section numbers (&sect;01 to &sect;10) and RT numbers refer to that file. Claude's tools could not fetch the hosted copy.", "https://muse.ai/s/socal-meshcore-scoping-plan-xkxl6s4xvxlkcoxy", ""),
-    ("plan5", "A", "<i>SoCal MeshCore Scoping Plan</i>, Draft v5, \"public-records review\", dated 13 October 2026, produced with Muse and supplied by the author as an HTML file (1.58 MB). Section numbers and RT numbers refer to that file.", "", ""),
+    ("plan", "A", "<i>SoCal MeshCore Scoping Plan</i>, working draft 3 (internal), \"topography review\", dated 13 October 2026, marked \"Not yet adopted\", produced by the author with Muse. Reviewed from the HTML file the author supplied (1.56 MB). Section numbers (&sect;01 to &sect;10) and RT numbers refer to that file. Claude's tools could not fetch the hosted copy.", "https://muse.ai/s/socal-meshcore-scoping-plan-xkxl6s4xvxlkcoxy", ""),
+    ("plan5", "A", "<i>SoCal MeshCore Scoping Plan</i>, working draft 5 (internal), \"public-records review\", dated 13 October 2026, produced with Muse and supplied by the author as an HTML file (1.58 MB). Section numbers and RT numbers refer to that file.", "", ""),
     # B
     ("fw-regionmap-h", "B", "<code>src/helpers/RegionMap.h</code>. Region table size, deny flag, name buffer.", FW + "src/helpers/RegionMap.h", "gh"),
     ("fw-regionmap", "B", "<code>src/helpers/RegionMap.cpp</code>. Name rules, key selection, scope matching, prefix lookup, removal.", FW + "src/helpers/RegionMap.cpp", "gh"),

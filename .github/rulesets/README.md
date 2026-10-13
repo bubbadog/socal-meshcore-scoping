@@ -8,7 +8,7 @@ To apply a file to a repository: Settings, Rules, Rulesets, New ruleset, Import 
 | --- | --- | --- |
 | `main-history.json` | Nobody can force-push to `main` or delete it, so published history cannot be rewritten | Nobody |
 | `main-pull-requests.json` | Changes to `main` arrive by squash-merged pull request, the `build` check (from GitHub Actions only) must pass, and review comments must be resolved | Repository admins, so the maintainer can push directly |
-| `release-tags.json` | A tag such as `v6` cannot be moved or deleted once pushed, so a cited draft stays what it was | Nobody |
+| `release-tags.json` | A tag such as `v1.0` cannot be moved or deleted once pushed, so a cited draft stays what it was | Nobody |
 
 The `build` check comes from `.github/workflows/check.yml`. It rebuilds both pages and fails if they differ from the committed ones. The check is tied to the GitHub Actions app (`integration_id` 15368), so another app cannot report a fake `build` result.
 
