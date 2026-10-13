@@ -1,0 +1,50 @@
+name: check
+
+# Runs on every push to main and on every pull request, including pull requests from forks.
+# It only reads the repository. It has no secrets and no write permission.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build both pages from source
+        run: |
+          python3 src/build.py doc
+          python3 src/build.py review
+      - name: Built pages match their source
+        run: |
+          git diff --exit-code -- index.html review.html || {
+            echo "::error::index.html or review.html differs from what src/ builds. Edit src/, run the build, and commit the result.";
+            exit 1;
+          }
+      - name: Scope decoder reproduces the published packets
+        run: python3 tools/decode_scope.py --file src/packets.json | tee /dev/stderr | grep -c "matches: psp" | grep -qx 3
+
+  sources:
+    name: sources
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Every pinned link exists at its commit
+        run: python3 tools/check_links.py
+      - name: Quotations and line references match the cited files
+        run: python3 tools/check_quotes.py doc

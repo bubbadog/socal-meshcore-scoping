@@ -15,6 +15,8 @@ Use the [feedback form](https://github.com/bubbadog/socal-meshcore-scoping/issue
 
 If you only want to fix a typo, GitHub's pencil icon on the file does all of the above in the browser.
 
+Two checks run on every pull request. `build` rebuilds both pages and fails if the committed pages differ from what `src/` produces. `sources` confirms every pinned link and quotation. The maintainer reviews and merges; nothing reaches `main` without a pull request.
+
 ## House rules for the text
 
 - **Label every statement.** `[[F]]` fact, `[[C]]` calculation, `[[I]]` inference, `[[E]]` estimate, `[[O]]` opinion, `[[R]]` recommendation, `[[U]]` unverified.
